@@ -1,0 +1,266 @@
+.design-process-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: var(--cWidth);
+  max-width: var(--cMaxWidth);
+  margin: auto;
+  margin-top: 60px;
+  padding: 120px 0px 80px 0px;
+  z-index: 9;
+  clear: both;
+}
+
+.design-process-container {
+  width: 100%;
+  max-width: 1300px;
+  margin: auto;
+}
+
+.design-process-header {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.design-process-header h2 {
+  font-size: 70px;
+  line-height: 70px;
+  font-weight: 400;
+  text-align: center;
+  background: linear-gradient(0deg, #7f40ff, #ffffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.design-process-header h2 > span {
+  font-family: "Geist", sans-serif;
+  font-weight: 300;
+}
+
+.design-process-header p {
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accentColor);
+  margin: 0;
+  font-weight: 400;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  width: 100%;
+}
+
+.process-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 40px;
+  box-sizing: border-box;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.process-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(194, 164, 255, 0.6), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.process-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(194, 164, 255, 0.35);
+  box-shadow: 0 20px 40px -15px rgba(127, 64, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.process-card:hover::before {
+  opacity: 1;
+}
+
+.process-step {
+  font-size: 42px;
+  font-weight: 600;
+  color: var(--accentColor);
+  margin-bottom: 12px;
+  font-family: "Geist", sans-serif;
+  letter-spacing: 1px;
+}
+
+.process-card h3 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.5px;
+}
+
+.process-card p {
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 300;
+  color: rgba(234, 229, 236, 0.75);
+  margin: 0 0 24px 0;
+}
+
+.process-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.process-tag {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #eae5ec;
+  font-weight: 300;
+  transition: all 0.3s ease;
+}
+
+.process-card:hover .process-tag {
+  border-color: rgba(194, 164, 255, 0.25);
+  background: rgba(194, 164, 255, 0.08);
+}
+
+.competencies-section {
+  width: 100%;
+  margin-top: 80px;
+  text-align: center;
+}
+
+.competencies-section h3 {
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accentColor);
+  margin: 0 0 35px 0;
+}
+
+.competencies-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  max-width: 950px;
+  margin: auto;
+}
+
+.competency-item {
+  padding: 12px 24px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #eae5ec;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+.competency-item:hover {
+  background: rgba(194, 164, 255, 0.15);
+  border-color: var(--accentColor);
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px -10px rgba(194, 164, 255, 0.3);
+}
+
+@media only screen and (max-width: 1400px) {
+  .design-process-header h2 {
+    font-size: 55px;
+    line-height: 55px;
+  }
+  .process-step {
+    font-size: 34px;
+  }
+  .process-card h3 {
+    font-size: 21px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .design-process-section {
+    padding: 90px 0px 50px 0px;
+  }
+  .process-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .process-card {
+    padding: 30px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .design-process-section {
+    padding: 60px 0px 40px 0px;
+  }
+  .design-process-header {
+    margin-bottom: 40px;
+  }
+  .design-process-header h2 {
+    font-size: clamp(32px, 8.5vw, 42px);
+    line-height: 1.1;
+  }
+  .design-process-header p {
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .process-card {
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+  .process-step {
+    font-size: 28px;
+    margin-bottom: 6px;
+  }
+  .process-card h3 {
+    font-size: 19px;
+    line-height: 24px;
+    margin-bottom: 8px;
+  }
+  .process-card p {
+    font-size: 13.5px;
+    line-height: 21px;
+    margin-bottom: 16px;
+  }
+  .process-tag {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  .competencies-section {
+    margin-top: 50px;
+  }
+  .competencies-section h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  .competencies-grid {
+    gap: 8px;
+  }
+  .competency-item {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+}

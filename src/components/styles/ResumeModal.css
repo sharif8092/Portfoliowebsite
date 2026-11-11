@@ -1,0 +1,265 @@
+/* ==========================================================================
+   RESUME MODAL: HIGH-TECH OBSIDIAN LIGHTBOX
+   ========================================================================== */
+
+.resume-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  background: rgba(7, 5, 9, 0.85);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  animation: resumeBackdropFade 0.3s ease forwards;
+}
+
+@keyframes resumeBackdropFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.resume-modal-card {
+  position: relative;
+  width: min(860px, 94vw);
+  max-height: 92vh;
+  max-height: 92svh;
+  background: linear-gradient(
+    145deg,
+    rgba(22, 16, 28, 0.94) 0%,
+    rgba(11, 8, 14, 0.98) 100%
+  );
+  border: 1px solid rgba(194, 164, 255, 0.25);
+  border-radius: 20px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85),
+    0 0 35px rgba(194, 164, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: resumeCardSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes resumeCardSlide {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Header */
+.resume-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(194, 164, 255, 0.12);
+  background: rgba(11, 8, 14, 0.6);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.resume-modal-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.resume-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c2a4ff;
+  box-shadow: 0 0 10px #c2a4ff;
+  animation: dotPulse 2s infinite ease-in-out;
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    transform: scale(0.85);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.resume-title-wrap h3 {
+  font-family: "Geist", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.resume-tag {
+  font-family: "Geist Mono", monospace, sans-serif;
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  color: #c2a4ff;
+  opacity: 0.85;
+}
+
+.resume-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Download Button */
+.resume-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, #7f40ff 0%, #aa42ff 100%);
+  color: #ffffff;
+  font-family: "Geist Mono", monospace, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(127, 64, 255, 0.4);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.resume-download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(127, 64, 255, 0.6);
+  background: linear-gradient(135deg, #9155ff 0%, #bd5eff 100%);
+  color: #ffffff;
+}
+
+.download-icon {
+  font-size: 12px;
+}
+
+/* Close Button */
+.resume-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #eae5ec;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.resume-close-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(194, 164, 255, 0.4);
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+/* Body / Image Container */
+.resume-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  background: rgba(5, 3, 7, 0.5);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Custom Scrollbar for Modal Body */
+.resume-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.resume-modal-body::-webkit-scrollbar-track {
+  background: rgba(11, 8, 14, 0.5);
+}
+
+.resume-modal-body::-webkit-scrollbar-thumb {
+  background: rgba(194, 164, 255, 0.3);
+  border-radius: 10px;
+}
+
+.resume-modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(194, 164, 255, 0.5);
+}
+
+.resume-image-wrapper {
+  max-width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.resume-preview-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+  .resume-modal-backdrop {
+    padding: 10px;
+  }
+
+  .resume-modal-card {
+    width: 100%;
+    max-height: 96vh;
+    border-radius: 16px;
+  }
+
+  .resume-modal-header {
+    padding: 12px 16px;
+  }
+
+  .resume-title-wrap h3 {
+    font-size: 14px;
+  }
+
+  .resume-tag {
+    font-size: 9px;
+  }
+
+  .resume-download-btn {
+    padding: 7px 12px;
+    font-size: 10px;
+    gap: 6px;
+  }
+
+  .resume-close-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .resume-modal-body {
+    padding: 12px;
+  }
+}

@@ -1,0 +1,260 @@
+/* -------------------------------------------------------------
+   KINETIC NAME STAGE — AQSA JAVED
+   Oversized modern display typography with interactive magnetic motion
+---------------------------------------------------------------- */
+
+.signature-motion-section {
+  width: 100%;
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 1. Monumental Kinetic Typographic Display */
+.kinetic-typography-stage {
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+}
+
+.kinetic-track {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  padding: 30px 0;
+  user-select: none;
+  cursor: crosshair;
+}
+
+.kinetic-glow-backdrop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 140px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(194, 164, 255, 0.2) 0%,
+    rgba(194, 164, 255, 0.05) 50%,
+    transparent 80%
+  );
+  filter: blur(45px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.kinetic-name-display {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(3.5rem, 10vw, 11rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.kinetic-letter {
+  display: inline-block;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(194, 164, 255, 0.35);
+  transition: -webkit-text-stroke-color 0.35s ease, text-shadow 0.35s ease,
+    color 0.35s ease;
+  will-change: transform, color;
+}
+
+.kinetic-letter:hover {
+  -webkit-text-stroke-color: var(--accentColor);
+  color: #c2a4ff;
+  text-shadow: 0 0 35px rgba(194, 164, 255, 0.6), 0 0 70px rgba(194, 164, 255, 0.3);
+}
+
+.kinetic-space {
+  display: inline-block;
+  width: clamp(1.2rem, 3.5vw, 4rem);
+}
+
+/* 2. Ticker ribbon */
+.sig-ticker-ribbon {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 35px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(194, 164, 255, 0.02);
+}
+
+.sig-ticker-content {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: sig-ticker 35s linear infinite;
+  gap: 22px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(234, 229, 236, 0.55);
+}
+
+.sig-ticker-content .sep {
+  color: var(--accentColor);
+  font-size: 10px;
+}
+
+@keyframes sig-ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* 3. Bottom status bar & Back to top */
+.sig-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 45px;
+  padding-top: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 13px;
+  color: rgba(234, 229, 236, 0.65);
+}
+
+.sig-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  padding: 6px 14px;
+  border-radius: 999px;
+  color: #86efac;
+  font-size: 12px;
+}
+
+.sig-live-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  box-shadow: 0 0 10px #22c55e;
+  animation: sig-live-pulse 2s infinite;
+}
+
+@keyframes sig-live-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+.sig-location-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(234, 229, 236, 0.5);
+}
+
+.sig-location-credit .dot {
+  color: var(--accentColor);
+}
+
+.sig-back-to-top {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #eae5ec;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sig-back-to-top:hover {
+  background: var(--accentColor);
+  color: #0b080c;
+  border-color: var(--accentColor);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(194, 164, 255, 0.35);
+}
+
+/* 4. Responsive Design */
+@media only screen and (max-width: 900px) {
+  .signature-motion-section {
+    margin-top: 40px;
+    padding-top: 30px;
+  }
+  .kinetic-name-display {
+    font-size: clamp(2.2rem, 8.5vw, 5.5rem);
+  }
+  .kinetic-space {
+    width: clamp(0.8rem, 2.5vw, 2.5rem);
+  }
+  .sig-bottom-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .kinetic-name-display {
+    font-size: clamp(1.75rem, 8vw, 3.2rem);
+    letter-spacing: -0.04em;
+  }
+  .kinetic-space {
+    width: clamp(0.5rem, 2vw, 1.5rem);
+  }
+  .sig-ticker-content {
+    font-size: 11px;
+    gap: 16px;
+  }
+  .sig-bottom-bar {
+    margin-top: 30px;
+    padding-top: 20px;
+    gap: 14px;
+  }
+  .sig-status-badge {
+    font-size: 11px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .sig-location-credit {
+    font-size: 12px;
+  }
+  .sig-back-to-top {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 0;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  .kinetic-name-display {
+    font-size: clamp(1.5rem, 7.5vw, 2.2rem);
+    letter-spacing: -0.05em;
+  }
+  .kinetic-space {
+    width: 0.4rem;
+  }
+}

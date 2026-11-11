@@ -1,0 +1,297 @@
+/* ==========================================================================
+   SPATIAL PORTRAIT: 3D "EXPLODED DEPTH LAYERS" (SPATIAL TEARDOWN)
+   ========================================================================== */
+
+.spatial-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  perspective: 1200px;
+  will-change: transform, opacity;
+}
+
+/* Desktop: Dedicated Center Stage */
+.spatial-desktop {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: clamp(240px, 21vw, 310px);
+  height: clamp(337px, 29.5vw, 435px);
+  z-index: 11;
+}
+
+/* Mobile: Fluid Between Intro and Info */
+.spatial-mobile {
+  position: relative;
+  width: clamp(190px, 50vw, 240px);
+  height: clamp(267px, 70.2vw, 337px);
+  margin: 25px auto;
+  z-index: 10;
+}
+
+/* --------------------------------------------------------------------------
+   3D Stage
+   -------------------------------------------------------------------------- */
+.spatial-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Layer Base */
+.spatial-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.spatial-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   LAYER 1: BACK LAYER (Silhouette + Halo + Grid)
+   -------------------------------------------------------------------------- */
+.layer-back {
+  z-index: 1;
+}
+
+.spatial-halo {
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  top: -20%;
+  left: -20%;
+  background: radial-gradient(
+    circle at center,
+    rgba(194, 164, 255, 0.32) 0%,
+    rgba(127, 64, 255, 0.14) 45%,
+    transparent 72%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+  border-radius: 50%;
+  animation: haloBreathe 5s ease-in-out infinite alternate;
+}
+
+@keyframes haloBreathe {
+  0% {
+    transform: scale(0.96);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+.silhouette-img {
+  filter: brightness(0) drop-shadow(0 0 25px rgba(194, 164, 255, 0.5));
+  opacity: 0.65;
+}
+
+.spatial-grid-overlay {
+  position: absolute;
+  inset: -14px;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.grid-corner {
+  position: absolute;
+  font-family: monospace;
+  font-size: 13px;
+  color: rgba(194, 164, 255, 0.5);
+  line-height: 1;
+  user-select: none;
+}
+
+.grid-corner.tl {
+  top: 0;
+  left: 0;
+}
+.grid-corner.tr {
+  top: 0;
+  right: 0;
+}
+.grid-corner.bl {
+  bottom: 0;
+  left: 0;
+}
+.grid-corner.br {
+  bottom: 0;
+  right: 0;
+}
+
+.grid-badge {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Geist Mono", monospace, sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: rgba(214, 191, 255, 0.65);
+  background: rgba(11, 8, 12, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 3px 8px;
+  border-radius: 100px;
+  border: 1px solid rgba(194, 164, 255, 0.2);
+  white-space: nowrap;
+}
+
+.grid-dot {
+  width: 4px;
+  height: 4px;
+  background-color: #c2a4ff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #c2a4ff;
+}
+
+/* --------------------------------------------------------------------------
+   FLOATING SPATIAL TEXT PILLS (In Between Layers)
+   -------------------------------------------------------------------------- */
+.spatial-pills-container {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.spatial-pill {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Geist Mono", monospace, sans-serif;
+  font-size: 9.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #e5d8ff;
+  background: rgba(11, 8, 12, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(194, 164, 255, 0.35);
+  padding: 4px 10px;
+  border-radius: 100px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7), 0 0 12px rgba(194, 164, 255, 0.3);
+  white-space: nowrap;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+.pill-dot {
+  width: 5px;
+  height: 5px;
+  background-color: #e879f9;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #e879f9;
+}
+
+.pill-hci {
+  top: 36%;
+  left: -15%;
+}
+
+.pill-cs {
+  bottom: 30%;
+  right: -15%;
+}
+
+.pill-research {
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* --------------------------------------------------------------------------
+   LAYER 2: UNIFIED CONTINUOUS PORTRAIT (Zero Neck Break!)
+   -------------------------------------------------------------------------- */
+.layer-portrait {
+  z-index: 6;
+  filter: drop-shadow(0 4px 25px rgba(0, 0, 0, 0.6));
+}
+
+.portrait-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.face-target-ui {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56%;
+  height: 38%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.target-bracket-l {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 100%;
+  border-left: 1.5px solid rgba(194, 164, 255, 0.4);
+  border-top: 1.5px solid rgba(194, 164, 255, 0.4);
+  border-bottom: 1.5px solid rgba(194, 164, 255, 0.4);
+}
+
+.target-bracket-r {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 100%;
+  border-right: 1.5px solid rgba(194, 164, 255, 0.4);
+  border-top: 1.5px solid rgba(194, 164, 255, 0.4);
+  border-bottom: 1.5px solid rgba(194, 164, 255, 0.4);
+}
+
+.target-id {
+  position: absolute;
+  bottom: -16px;
+  right: 0;
+  font-family: "Geist Mono", monospace, sans-serif;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: rgba(194, 164, 255, 0.65);
+}
+
+/* Mobile Adjustments */
+@media screen and (max-width: 768px) {
+  .pill-hci {
+    left: -8%;
+    font-size: 8px;
+    padding: 3px 8px;
+  }
+  .pill-cs {
+    right: -8%;
+    font-size: 8px;
+    padding: 3px 8px;
+  }
+  .pill-research {
+    display: none;
+  }
+  .grid-badge {
+    display: none;
+  }
+}

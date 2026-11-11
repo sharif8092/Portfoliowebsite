@@ -1,0 +1,113 @@
+.header {
+  display: flex;
+  max-width: var(--cMaxWidth);
+  width: var(--cWidth);
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  box-sizing: border-box;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  z-index: 9999;
+  background: rgba(11, 8, 12, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0 0 16px 16px;
+  transition: all 0.3s ease;
+}
+
+.header ul {
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  column-gap: 14px;
+  row-gap: 0;
+  align-items: center;
+}
+
+.header ul li {
+  margin-left: 0px;
+  letter-spacing: 1px;
+  color: #ccc;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.header ul li a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px;
+  min-height: 38px;
+}
+
+.navbar-connect {
+  position: absolute;
+  display: none;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 15px;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.navbar-title {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+}
+
+@media only screen and (min-width: 600px) {
+  .header {
+    padding: 20px 0px;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: none;
+    border-radius: 0;
+    margin-bottom: -100px;
+  }
+  .header ul {
+    column-gap: 30px;
+    font-size: 14px;
+  }
+  .header ul li {
+    color: #eae5ec;
+  }
+  .navbar-title {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .navbar-connect {
+    display: block;
+  }
+  .header ul {
+    column-gap: 45px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .header {
+    padding: 35px 0px;
+  }
+  .header ul {
+    column-gap: 80px;
+    font-size: 16px;
+  }
+  .navbar-connect {
+    font-size: 16px;
+  }
+  .navbar-title {
+    font-size: 18px;
+  }
+}
