@@ -76,11 +76,11 @@
 }
 .career-timeline {
   position: absolute;
-  top: -50px;
+  top: 0px;
   left: 50%;
   transform: translateX(-50%);
   width: 3px;
-  height: 100%;
+  height: calc(100% - 40px);
   background-image: linear-gradient(
     to top,
     #aa42ff 20%,
@@ -88,6 +88,7 @@
     transparent 95%
   );
   max-height: 0%;
+  pointer-events: none;
 }
 .career-dot {
   position: absolute;

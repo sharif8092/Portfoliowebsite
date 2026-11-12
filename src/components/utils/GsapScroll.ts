@@ -148,10 +148,10 @@ export function setAllTimeline() {
 
   careerTimelineInstance = gsap.timeline({
     scrollTrigger: {
-      trigger: ".career-section",
-      start: "top 40%",
-      end: "100% center",
-      scrub: true,
+      trigger: ".career-info",
+      start: "top 70%",
+      end: "bottom 60%",
+      scrub: 0.6,
       invalidateOnRefresh: true,
     },
   });
@@ -159,29 +159,19 @@ export function setAllTimeline() {
   careerTimelineInstance
     .fromTo(
       ".career-timeline",
-      { maxHeight: "10%" },
-      { maxHeight: "100%", duration: 0.5 },
-      0
-    )
-    .fromTo(
-      ".career-timeline",
-      { opacity: 0 },
-      { opacity: 1, duration: 0.1 },
+      { maxHeight: "0%", opacity: 0 },
+      { maxHeight: "100%", opacity: 1, duration: 1, ease: "none" },
       0
     )
     .fromTo(
       ".career-info-box",
-      { opacity: 0 },
-      { opacity: 1, stagger: 0.1, duration: 0.5 },
-      0
-    )
-    .fromTo(
-      ".career-dot",
-      { animationIterationCount: "infinite" },
+      { opacity: 0.35, y: 15 },
       {
-        animationIterationCount: "1",
-        delay: 0.3,
-        duration: 0.1,
+        opacity: 1,
+        y: 0,
+        stagger: 0.25,
+        duration: 0.5,
+        ease: "power1.out",
       },
       0
     );
