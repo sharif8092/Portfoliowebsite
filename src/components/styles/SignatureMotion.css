@@ -81,6 +81,43 @@
   width: clamp(1.2rem, 3.5vw, 4rem);
 }
 
+.kinetic-circuit-rail {
+  position: relative;
+  width: min(920px, 92%);
+  margin: 22px auto 10px auto;
+  height: 2px;
+  background: rgba(194, 164, 255, 0.12);
+  border-radius: 999px;
+  overflow: visible;
+  z-index: 2;
+}
+
+.kinetic-circuit-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #aa42ff 0%, #c2a4ff 75%, #ffffff 100%);
+  box-shadow: 0 0 16px rgba(194, 164, 255, 0.8);
+  border-radius: 999px;
+  will-change: width;
+}
+
+.kinetic-circuit-dot {
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #aa42ff;
+  box-shadow: 0px 0px 6px 3px #d29bff, 0px 0px 18px 9px #d097ff,
+    0px 0px 70px 20px rgba(242, 192, 255, 0.7);
+  animation: timeline 0.8s linear infinite forwards;
+}
+
 /* 2. Ticker ribbon */
 .sig-ticker-ribbon {
   width: 100%;

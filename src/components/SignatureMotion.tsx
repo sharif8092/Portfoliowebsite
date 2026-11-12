@@ -29,6 +29,55 @@ const SignatureMotion = () => {
     if (!el) return;
 
     const ctx = gsap.context(() => {
+      // Scroll animation: Line moves through each letter of AQSA JAVED
+      const validLetters = letterRefs.current.filter(
+        (el): el is HTMLSpanElement => el !== null
+      );
+
+      if (validLetters.length > 0) {
+        const letterTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".kinetic-typography-stage",
+            start: "top 80%",
+            end: "bottom 80%",
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        // Horizontal circuit line draws across under the name
+        letterTl.fromTo(
+          ".kinetic-circuit-line",
+          { width: "0%" },
+          { width: "100%", ease: "none", duration: 1 },
+          0
+        );
+
+        // Light up each letter in sequence as the line passes through it
+        validLetters.forEach((letter, i) => {
+          const startTime = (i / validLetters.length) * 0.9;
+          letterTl.fromTo(
+            letter,
+            {
+              color: "transparent",
+              WebkitTextStrokeColor: "rgba(194, 164, 255, 0.3)",
+              textShadow: "0 0 0px transparent",
+              y: 8,
+            },
+            {
+              color: "#c2a4ff",
+              WebkitTextStrokeColor: "#ffffff",
+              textShadow:
+                "0 0 25px rgba(194, 164, 255, 0.85), 0 0 60px rgba(170, 66, 255, 0.5)",
+              y: 0,
+              duration: 0.16,
+              ease: "power2.out",
+            },
+            startTime
+          );
+        });
+      }
+
       // Kinetic letters magnetic interaction
       const track = kineticTrackRef.current;
       if (track) {
@@ -58,7 +107,6 @@ const SignatureMotion = () => {
                 rotateZ: rot,
                 duration: 0.35,
                 ease: "power2.out",
-                color: "#c2a4ff",
               });
             } else {
               gsap.to(letter, {
@@ -67,7 +115,6 @@ const SignatureMotion = () => {
                 rotateZ: 0,
                 duration: 0.55,
                 ease: "elastic.out(1, 0.4)",
-                color: "transparent",
               });
             }
           });
@@ -82,7 +129,6 @@ const SignatureMotion = () => {
               rotateZ: 0,
               duration: 0.7,
               ease: "elastic.out(1, 0.4)",
-              color: "transparent",
             });
           });
         };
@@ -128,6 +174,13 @@ const SignatureMotion = () => {
               )
             )}
           </h1>
+
+          {/* Living Circuit Rail Traversing Under AQSA JAVED */}
+          <div className="kinetic-circuit-rail">
+            <div className="kinetic-circuit-line">
+              <div className="kinetic-circuit-dot" />
+            </div>
+          </div>
         </div>
 
         {/* Ticker marquee badge */}
