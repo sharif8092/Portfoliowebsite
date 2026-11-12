@@ -1,373 +1,429 @@
 .work-section {
   position: relative;
-  height: 100vh;
-  height: 100svh;
+  height: auto;
   box-sizing: border-box;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: clamp(15px, 2.5vh, 35px) 0;
-  transition: 0s;
-  will-change: transform;
+  padding: 120px 0px 80px 0px;
+  width: var(--cWidth);
+  max-width: var(--cMaxWidth);
+  margin: auto;
+  margin-top: 40px;
+  z-index: 9;
+  clear: both;
 }
 
-.work-section h2 {
-  margin: 0 0 clamp(12px, 2vh, 25px) 0;
-  font-size: clamp(38px, 5.5vw, 68px);
-  font-weight: 500;
-  line-height: 1;
-  flex-shrink: 0;
+.work-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.work-section h2 > span {
+.work-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.work-header h2 {
+  font-size: 70px;
+  line-height: 70px;
+  font-weight: 400;
+  text-align: center;
+  background: linear-gradient(0deg, #7f40ff, #ffffff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.work-header h2 > span {
+  font-family: "Geist", sans-serif;
+  font-weight: 300;
+}
+
+.work-header p {
+  font-size: 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   color: var(--accentColor);
+  margin: 0;
+  font-weight: 400;
 }
 
-.work-circuit-track {
+/* DNA Wrapper */
+.work-dna-wrapper {
   position: relative;
   width: 100%;
-  height: 2px;
-  background: rgba(194, 164, 255, 0.12);
-  margin: 0 0 clamp(14px, 2.2vh, 26px) 0;
-  border-radius: 999px;
-  flex-shrink: 0;
-  overflow: visible;
+}
+
+/* Central DNA Double-Helix Spine */
+.work-dna-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
 }
 
 .work-dna-svg {
   position: absolute;
-  top: -11px;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 24px;
-  pointer-events: none;
+  height: 100%;
   overflow: visible;
-  filter: drop-shadow(0 0 6px rgba(194, 164, 255, 0.4));
+  filter: drop-shadow(0 0 8px rgba(194, 164, 255, 0.45));
+}
+
+.work-circuit-track {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2.5px;
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .work-circuit-line {
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
   height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #aa42ff 0%, #c2a4ff 75%, #ffffff 100%);
-  box-shadow: 0 0 14px rgba(194, 164, 255, 0.7);
-  border-radius: 999px;
-  will-change: width;
+  max-height: 0%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--accentColor) 20%,
+    #aa42ff 100%
+  );
+  box-shadow: 0 0 14px rgba(194, 164, 255, 0.75);
+  will-change: max-height;
 }
 
 .work-circuit-dot {
   position: absolute;
-  right: -5px;
-  top: 50%;
-  transform: translateY(-50%);
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
   width: 11px;
   height: 11px;
   border-radius: 50%;
   background-color: #aa42ff;
   box-shadow: 0px 0px 6px 3px #d29bff, 0px 0px 16px 8px #d097ff,
-    0px 0px 60px 15px rgba(242, 192, 255, 0.6);
+    0px 0px 60px 15px rgba(242, 192, 255, 0.7);
   animation: timeline 0.8s linear infinite forwards;
 }
 
-.work-container {
-  margin: auto;
+/* Alternating DNA Project Nodes */
+.work-dna-nodes {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  justify-content: center;
+  gap: 75px;
+  position: relative;
+  z-index: 3;
 }
 
-.work-flex {
-  width: auto;
+.work-dna-node {
+  position: relative;
+  width: 45%;
   display: flex;
   align-items: center;
-  margin-left: 0;
-  padding-right: clamp(150px, 20vw, 400px);
-  position: relative;
-  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.work-box {
-  padding: clamp(24px, 3vw, 44px);
+.work-node-left {
+  margin-right: auto;
+  margin-left: 0;
+  transform: perspective(1000px) rotateY(3deg);
+}
+
+.work-node-right {
+  margin-left: auto;
+  margin-right: 0;
+  transform: perspective(1000px) rotateY(-3deg);
+}
+
+/* Nucleotide Connector Rung */
+.work-dna-rung {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.work-node-left .work-dna-rung {
+  right: -58px;
+  width: 58px;
+  flex-direction: row;
+}
+
+.work-node-right .work-dna-rung {
+  left: -58px;
+  width: 58px;
+  flex-direction: row-reverse;
+}
+
+.work-rung-line {
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    rgba(194, 164, 255, 0.2),
+    rgba(194, 164, 255, 0.6)
+  );
+  border-top: 1px dashed rgba(194, 164, 255, 0.4);
+}
+
+.work-node-right .work-rung-line {
+  background: linear-gradient(
+    270deg,
+    rgba(194, 164, 255, 0.2),
+    rgba(194, 164, 255, 0.6)
+  );
+}
+
+.work-rung-node {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c2a4ff;
+  box-shadow: 0 0 10px #c2a4ff;
+}
+
+/* Glassmorphism Project Card */
+.work-dna-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(194, 164, 255, 0.18);
+  border-radius: 24px;
+  padding: 28px 30px;
+  box-sizing: border-box;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 18px 40px -14px rgba(0, 0, 0, 0.7),
+              inset 0 1px 1px rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
-  width: clamp(340px, 36vw, 520px);
-  box-sizing: border-box;
-  border-right: 1px solid rgba(255, 255, 255, 0.12);
-  flex-shrink: 0;
-  gap: clamp(16px, 2vh, 32px);
-  justify-content: center;
-  position: relative;
+  gap: 20px;
 }
 
-/* DNA Undulating 3D Sine-Wave Alignment */
-.work-dna-box {
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.4s ease,
-              border-color 0.4s ease;
-  will-change: transform;
+.work-dna-node:hover .work-dna-card {
+  transform: translateY(-6px) scale(1.015);
+  border-color: rgba(194, 164, 255, 0.45);
+  box-shadow: 0 28px 55px -12px rgba(127, 64, 255, 0.28),
+              0 0 30px rgba(194, 164, 255, 0.14),
+              inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
 }
 
-.work-dna-upper {
-  transform: translateY(-28px) perspective(1000px) rotateZ(1.2deg) rotateY(-2.5deg);
-}
-
-.work-dna-lower {
-  transform: translateY(28px) perspective(1000px) rotateZ(-1.2deg) rotateY(2.5deg);
-}
-
-.work-dna-box:hover {
-  transform: translateY(0px) scale(1.025) perspective(1000px) rotateZ(0deg) rotateY(0deg) !important;
-  z-index: 5;
-}
-
-.work-dna-indicator {
+/* Card Header */
+.work-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
 }
 
-.work-dna-strand-badge {
-  font-size: 10px;
+.work-strand-badge {
+  font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 1.4px;
   text-transform: uppercase;
-  color: #c2a4ff;
-  background: rgba(194, 164, 255, 0.08);
-  border: 1px solid rgba(194, 164, 255, 0.22);
+  color: rgba(194, 164, 255, 0.7);
+  background: rgba(194, 164, 255, 0.07);
   padding: 3px 10px;
   border-radius: 100px;
+  border: 1px solid rgba(194, 164, 255, 0.18);
 }
 
-.work-dna-node-id {
-  font-size: 11px;
-  font-weight: 500;
+.work-project-id {
+  font-size: 12px;
+  font-weight: 700;
   letter-spacing: 1px;
-  color: rgba(234, 229, 236, 0.5);
+  color: #c2a4ff;
   font-family: "Geist", monospace;
 }
 
-.work-flex .work-box:nth-child(even) {
-  flex-direction: column-reverse;
-}
-
-.work-flex::before,
-.work-flex::after {
-  content: "";
-  width: 100%;
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.12);
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.work-flex::after {
-  top: 100%;
-}
-
-.work-title {
-  justify-content: space-between;
-  display: flex;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.work-title > div {
-  text-align: right;
-}
-
-.work-title h3 {
-  font-size: clamp(32px, 3.5vw, 48px);
-  line-height: 1;
-  margin: 0;
-  font-weight: 600;
-}
-
-.work-info h4 {
-  font-size: 16px;
-  font-weight: 500;
-  margin: 0;
-  color: #ffffff;
-}
-
-.work-info p {
-  font-weight: 300;
-  color: #adacac;
-  margin: 0;
-  margin-top: 4px;
-  font-size: 13px;
-  line-height: 18px;
-}
-
-.work-info > p {
-  width: 95%;
-}
-
+/* Project Image inside card */
 .work-image {
-  display: flex;
   width: 100%;
-  justify-content: center;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
 }
 
 .work-image-in {
   position: relative;
+  display: block;
+  width: 100%;
+  border-radius: 14px;
   overflow: hidden;
-  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.work-image img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-dna-card:hover .work-image img {
+  transform: scale(1.05);
 }
 
 .work-link {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  background-color: var(--backgroundColor);
-  width: 46px;
-  border-radius: 50px;
-  height: 46px;
+  top: 12px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(11, 8, 14, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.work-dna-card:hover .work-link {
+  background: #aa42ff;
+  border-color: #c2a4ff;
+  transform: scale(1.1) rotate(45deg);
+  box-shadow: 0 0 16px rgba(170, 66, 255, 0.6);
+}
+
+/* Info Details */
+.work-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.work-title h4 {
   font-size: 22px;
-  box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5),
-    inset 0px 0px 10px 0px #393939;
-  transition: 0.3s;
-  opacity: 0;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+  line-height: 1.3;
 }
 
-.work-image a:hover {
-  color: inherit;
+.work-category {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--accentColor);
+  letter-spacing: 0.5px;
+  margin: 0;
 }
 
-.work-image a:hover .work-link {
-  opacity: 1;
+.work-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 300;
+  color: rgba(234, 229, 236, 0.8);
+  margin: 0;
 }
 
-.work-image video {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: #000;
-  object-fit: cover;
+.work-tools-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 4px;
 }
 
-.work-image img {
-  max-width: 100%;
-  max-height: clamp(180px, 25vh, 270px);
-  border-radius: 8px;
-  object-fit: cover;
-  display: block;
+.work-tool-pill {
+  font-size: 11.5px;
+  padding: 4px 11px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  color: #eae5ec;
+  font-weight: 400;
+  transition: all 0.25s ease;
 }
 
-/* Responsiveness for low height viewports */
-@media only screen and (max-height: 700px) {
-  .work-section {
-    padding: 10px 0;
+.work-dna-node:hover .work-tool-pill {
+  border-color: rgba(194, 164, 255, 0.35);
+  background: rgba(194, 164, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1024px) {
+  .work-dna-node {
+    width: 44%;
   }
-  .work-section h2 {
-    font-size: clamp(28px, 4vw, 38px);
-    margin-bottom: 8px;
+  .work-dna-card {
+    padding: 24px;
   }
-  .work-box {
-    padding: 16px 20px;
-    gap: 12px;
-    width: clamp(300px, 32vw, 420px);
+  .work-title h4 {
+    font-size: 20px;
   }
   .work-image img {
-    max-height: 160px;
-  }
-  .work-title h3 {
-    font-size: 28px;
-  }
-  .work-info h4 {
-    font-size: 14px;
-  }
-  .work-info p {
-    font-size: 11.5px;
-    line-height: 15px;
+    height: 200px;
   }
 }
 
-@media only screen and (max-height: 520px) {
-  .work-section {
-    padding: 6px 0;
-  }
-  .work-section h2 {
-    font-size: 24px;
-    margin-bottom: 4px;
-  }
-  .work-box {
-    padding: 10px 14px;
-    gap: 8px;
-    width: 280px;
-  }
-  .work-image img {
-    max-height: 120px;
-  }
-}
-
-/* Mobile Screens */
 @media only screen and (max-width: 768px) {
   .work-section {
-    height: 100vh;
-    height: 100svh;
-    padding: 15px 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding: 80px 0 60px 0;
   }
-
-  .work-section h2 {
-    font-size: clamp(30px, 8vw, 42px);
-    margin-top: 5px;
+  .work-header h2 {
+    font-size: 44px;
+    line-height: 44px;
     margin-bottom: 12px;
   }
-
-  .work-box {
-    width: clamp(280px, 82vw, 360px);
-    padding: 20px 16px;
-    gap: 16px;
+  .work-dna-spine {
+    left: 20px;
+    transform: none;
+    width: 30px;
   }
-
-  .work-dna-upper,
-  .work-dna-lower {
+  .work-dna-nodes {
+    gap: 40px;
+    padding-left: 55px;
+  }
+  .work-dna-node {
+    width: 100%;
+    margin: 0 !important;
     transform: none !important;
   }
-
-  .work-flex .work-box:nth-child(even) {
-    flex-direction: column;
+  .work-dna-rung {
+    display: none;
   }
-
-  .work-title h3 {
-    font-size: 28px;
-    line-height: 28px;
+  .work-dna-card {
+    padding: 20px 18px;
+    border-radius: 20px;
   }
-
-  .work-info h4 {
-    font-size: 15px;
+  .work-title h4 {
+    font-size: 19px;
   }
-
-  .work-info p {
-    font-size: 12px;
-  }
-
   .work-image img {
-    max-height: 190px;
-    border-radius: 8px;
-  }
-
-  .work-link {
-    opacity: 1;
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
+    height: 180px;
   }
 }

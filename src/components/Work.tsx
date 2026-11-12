@@ -1,220 +1,195 @@
-import "./styles/Work.css";
-import WorkImage from "./WorkImage";
+import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import "./styles/Work.css";
+import WorkImage from "./WorkImage";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger);
+
+const projects = [
+  {
+    id: "01",
+    title: "RAAHI — Driver Drowsiness Detection App",
+    category: "Product Design & HCI",
+    tools: ["Figma Slides", "HCI Ergonomics", "ADAS Interaction", "3D Mascot"],
+    image: "/images/projects/raahi_cover.png",
+    link: "https://www.figma.com/slides/1yxd6fB3wZeWLXaoihFZdb/Driver-Drowsiness--Copy-",
+    strand: "HELIX STRAND α",
+    side: "left",
+    desc: "A multimodal mobile companion app engineered to detect driver fatigue in commercial fleet drivers using cognitive ergonomics and conversational AI nudges.",
+  },
+  {
+    id: "02",
+    title: "Beyond Reality — Evolution of VR & AR",
+    category: "Spatial Design & Research",
+    tools: ["Adobe InDesign", "Photoshop", "Spatial Interaction", "53-Page Publication"],
+    image: "/images/projects/beyond_reality_cover.png",
+    link: "https://startling-stroopwafel-805e80.netlify.app/assets/aistudio/Final_Magazine_VR___AR_9aa001e7.pdf",
+    strand: "HELIX STRAND β",
+    side: "right",
+    desc: "A comprehensive 53-page spatial computing research publication synthesizing VR/AR evolution, spatial ergonomics, perceptual latency, and futuristic UI paradigms.",
+  },
+  {
+    id: "03",
+    title: "Hanging Garden: Bloom — Editorial Travel Magazine",
+    category: "Editorial Design & Typography",
+    tools: ["Adobe InDesign", "Editorial Typography", "Color Grading", "Layout Architecture"],
+    image: "/images/projects/hanging_garden_cover.jpg",
+    link: "https://startling-stroopwafel-805e80.netlify.app/assets/aistudio/Aqsa-Magazine_3a00bb79.pdf",
+    strand: "HELIX STRAND α",
+    side: "left",
+    desc: "A luxury editorial travel publication showcasing experimental grid structures, bespoke Swiss typography, and high-fidelity visual narrative curation.",
+  },
+  {
+    id: "04",
+    title: "Ferrari F40 — Kinetic Typographic Poster",
+    category: "Visual Identity & Swiss Typography",
+    tools: ["Adobe Illustrator", "Photoshop", "Swiss Grid Systems", "Telemetry Typography"],
+    image: "/images/projects/ferrari_cover.png",
+    link: "https://startling-stroopwafel-805e80.netlify.app/",
+    strand: "HELIX STRAND β",
+    side: "right",
+    desc: "A commemorative automotive typography poster honoring the legendary Ferrari F40, utilizing dynamic telemetry data, strict Swiss grids, and kinetic letter architecture.",
+  },
+];
 
 const Work = () => {
-  useGSAP(() => {
-    let timeline: gsap.core.Timeline | null = null;
-
-    function initWorkScroll() {
-      const workFlex = document.querySelector(".work-flex") as HTMLElement;
-      const boxes = document.querySelectorAll(".work-box");
-      const section = document.querySelector(".work-section") as HTMLElement;
-      if (!workFlex || !boxes.length || !section) return;
-
-      // Kill previous instance if resizing or re-initializing
-      if (timeline) {
-        timeline.kill();
-        ScrollTrigger.getById("work")?.kill();
-      }
-
-      // Reset x before measuring to guarantee 100% accurate bounding coordinates
-      gsap.set(workFlex, { x: 0 });
-
-      const lastBox = boxes[boxes.length - 1] as HTMLElement;
-      const lastBoxRect = lastBox.getBoundingClientRect();
-      const viewportWidth = window.innerWidth;
-
-      // Center the final card horizontally if screen is wider than the card,
-      // or maintain comfortable padding on smaller screens
-      const rightPadding = Math.max(40, (viewportWidth - lastBox.offsetWidth) / 2);
-      const targetTravel = Math.max(0, lastBoxRect.right - viewportWidth + rightPadding);
-
-      // Pin duration: give ample vertical scroll travel so all 4 projects are comfortably experienced
-      const pinDistance = Math.max(1800, Math.round(targetTravel * 1.35 + 300));
-
-      timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".work-section",
-          start: "top top",
-          end: `+=${pinDistance}`,
-          scrub: 1,
-          pin: true,
-          pinSpacing: true,
-          id: "work",
-          invalidateOnRefresh: true,
-        },
-      });
-
-      // Animate cards across the viewport AND the horizontal living circuit beam
-      timeline.to(
-        ".work-flex",
-        {
-          x: -targetTravel,
-          ease: "none",
-          duration: 1,
-        },
-        0
-      );
-
-      timeline.fromTo(
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
         ".work-circuit-line",
-        { width: "0%" },
+        { maxHeight: "0%", opacity: 0 },
         {
-          width: "100%",
+          maxHeight: "100%",
+          opacity: 1,
           ease: "none",
-          duration: 1,
-        },
-        0
+          scrollTrigger: {
+            trigger: ".work-dna-wrapper",
+            start: "top 72%",
+            end: "bottom 60%",
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
+        }
       );
+    });
 
-      // Generous hold at the end so the user can inspect the 4th project before unpinning
-      timeline.to({}, { duration: 0.3 });
-    }
-
-    initWorkScroll();
-
-    const handleResize = () => {
-      initWorkScroll();
-      ScrollTrigger.refresh();
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      timeline?.kill();
-      ScrollTrigger.getById("work")?.kill();
-    };
+    return () => ctx.revert();
   }, []);
 
-  // Aqsa Javed — Real Case Studies & Projects
-  const projects = [
-    {
-      id: "01",
-      title: "RAAHI — Driver Drowsiness Detection App",
-      category: "Product Design & HCI",
-      tools: "Figma Slides, HCI Ergonomics, ADAS Interaction Models, 3D Mascot",
-      image: "/images/projects/raahi_cover.png",
-      link: "https://www.figma.com/slides/1yxd6fB3wZeWLXaoihFZdb/Driver-Drowsiness--Copy-",
-    },
-    {
-      id: "02",
-      title: "Beyond Reality — Evolution of VR & AR",
-      category: "Spatial Design & Research",
-      tools: "Adobe InDesign, Photoshop, Spatial Interaction, HCI Literature Synthesis, 53 Pages",
-      image: "/images/projects/beyond_reality_cover.png",
-      link: "https://startling-stroopwafel-805e80.netlify.app/assets/aistudio/Final_Magazine_VR___AR_9aa001e7.pdf",
-    },
-    {
-      id: "03",
-      title: "Hanging Garden: Bloom — Editorial Travel Magazine",
-      category: "Editorial Design & Typography",
-      tools: "Adobe InDesign, Editorial Typography, Curated Color Grading, Layout Architecture",
-      image: "/images/projects/hanging_garden_cover.jpg",
-      link: "https://startling-stroopwafel-805e80.netlify.app/assets/aistudio/Aqsa-Magazine_3a00bb79.pdf",
-    },
-    {
-      id: "04",
-      title: "Ferrari F40 — Kinetic Typographic Poster",
-      category: "Visual Identity & Swiss Typography",
-      tools: "Adobe Illustrator, Photoshop, Swiss Grid Systems, Automotive Telemetry Typography",
-      image: "/images/projects/ferrari_cover.png",
-      link: "https://startling-stroopwafel-805e80.netlify.app/",
-    },
-  ];
-
   return (
-    <div className="work-section" id="work">
-      <div className="work-container section-container">
-        <h2>
-          My <span>Work</span>
-        </h2>
-        {/* Living Circuit Horizontal DNA Double Helix Energy Beam */}
-        <div className="work-circuit-track">
-          <svg
-            className="work-dna-svg"
-            viewBox="0 0 1200 24"
-            preserveAspectRatio="none"
-            fill="none"
-            aria-hidden="true"
-          >
-            <defs>
-              <linearGradient id="work-dna-grad-a" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#7f40ff" stopOpacity="0.3" />
-                <stop offset="50%" stopColor="#c2a4ff" stopOpacity="0.75" />
-                <stop offset="100%" stopColor="#ffffff" stopOpacity="0.9" />
-              </linearGradient>
-              <linearGradient id="work-dna-grad-b" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#aa42ff" stopOpacity="0.2" />
-                <stop offset="50%" stopColor="#d29bff" stopOpacity="0.75" />
-                <stop offset="100%" stopColor="#aa42ff" stopOpacity="0.6" />
-              </linearGradient>
-            </defs>
-            {/* Base Pair Rungs */}
-            <line x1="150" y1="4" x2="150" y2="20" stroke="rgba(194, 164, 255, 0.4)" strokeWidth="1.5" strokeDasharray="2 2" />
-            <line x1="450" y1="4" x2="450" y2="20" stroke="rgba(194, 164, 255, 0.4)" strokeWidth="1.5" strokeDasharray="2 2" />
-            <line x1="750" y1="4" x2="750" y2="20" stroke="rgba(194, 164, 255, 0.4)" strokeWidth="1.5" strokeDasharray="2 2" />
-            <line x1="1050" y1="4" x2="1050" y2="20" stroke="rgba(194, 164, 255, 0.4)" strokeWidth="1.5" strokeDasharray="2 2" />
-
-            {/* Intertwining horizontal sine waves */}
-            <path
-              d="M 0,12 Q 150,-4 300,12 T 600,12 T 900,12 T 1200,12"
-              stroke="url(#work-dna-grad-a)"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-            <path
-              d="M 0,12 Q 150,28 300,12 T 600,12 T 900,12 T 1200,12"
-              stroke="url(#work-dna-grad-b)"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-          <div className="work-circuit-line">
-            <div className="work-circuit-dot"></div>
-          </div>
+    <section className="work-section section-container" id="work">
+      <div className="work-container">
+        <div className="work-header">
+          <h2>
+            Featured <span>Work</span>
+          </h2>
+          <p>Selected Case Studies, Spatial Interfaces &amp; Editorial Research</p>
         </div>
-        <div className="work-flex">
-          {projects.map((project, index) => (
-            <div
-              className={`work-box work-dna-box ${
-                index % 2 === 0 ? "work-dna-upper" : "work-dna-lower"
-              }`}
-              key={project.id}
-            >
-              <div className="work-info">
-                <div className="work-dna-indicator">
-                  <span className="work-dna-strand-badge">
-                    {index % 2 === 0 ? "HELIX STRAND α" : "HELIX STRAND β"}
-                  </span>
-                  <span className="work-dna-node-id">NODE {project.id}</span>
-                </div>
-                <div className="work-title">
-                  <h3>{project.id}</h3>
 
-                  <div>
-                    <h4>{project.title}</h4>
-                    <p>{project.category}</p>
+        <div className="work-dna-wrapper">
+          {/* Central DNA Double-Helix Spine */}
+          <div className="work-dna-spine">
+            <svg
+              className="work-dna-svg"
+              viewBox="0 0 60 1400"
+              preserveAspectRatio="none"
+              fill="none"
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id="work-dna-grad-alpha" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#c2a4ff" stopOpacity="0.25" />
+                  <stop offset="50%" stopColor="#aa42ff" stopOpacity="0.9" />
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.95" />
+                </linearGradient>
+                <linearGradient id="work-dna-grad-beta" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#7f40ff" stopOpacity="0.25" />
+                  <stop offset="50%" stopColor="#d29bff" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#aa42ff" stopOpacity="0.9" />
+                </linearGradient>
+              </defs>
+
+              {/* Nucleotide Base Pair Horizontal Cross Rungs */}
+              <line x1="12" y1="140" x2="48" y2="140" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
+              <line x1="18" y1="320" x2="42" y2="320" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
+              <line x1="12" y1="500" x2="48" y2="500" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
+              <line x1="18" y1="680" x2="42" y2="680" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
+              <line x1="12" y1="860" x2="48" y2="860" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
+              <line x1="18" y1="1040" x2="42" y2="1040" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
+              <line x1="12" y1="1220" x2="48" y2="1220" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
+
+              {/* Sinuous Intertwined Double-Helix Wave Paths */}
+              <path
+                d="M 30,0 C 8,120 8,240 30,360 C 52,480 52,600 30,720 C 8,840 8,960 30,1080 C 52,1200 52,1320 30,1400"
+                stroke="url(#work-dna-grad-alpha)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+              <path
+                d="M 30,0 C 52,120 52,240 30,360 C 8,480 8,600 30,720 C 52,840 52,960 30,1080 C 8,1200 8,1320 30,1400"
+                stroke="url(#work-dna-grad-beta)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+            </svg>
+
+            {/* Living Circuit Central Spine */}
+            <div className="work-circuit-track">
+              <div className="work-circuit-line">
+                <div className="work-circuit-dot"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* DNA Alternating Spiral Project Nodes */}
+          <div className="work-dna-nodes">
+            {projects.map((project, index) => (
+              <div
+                className={`work-dna-node ${
+                  index % 2 === 0 ? "work-node-left" : "work-node-right"
+                }`}
+                key={project.id}
+              >
+                {/* Nucleotide Connector Rung */}
+                <div className="work-dna-rung" aria-hidden="true">
+                  <span className="work-rung-line"></span>
+                  <span className="work-rung-node"></span>
+                </div>
+
+                <div className="work-box work-dna-card">
+                  <div className="work-card-header">
+                    <span className="work-strand-badge">{project.strand}</span>
+                    <span className="work-project-id">PROJECT {project.id}</span>
+                  </div>
+
+                  <WorkImage
+                    image={project.image}
+                    alt={project.title}
+                    link={project.link}
+                  />
+
+                  <div className="work-info">
+                    <div className="work-title">
+                      <h4>{project.title}</h4>
+                      <p className="work-category">{project.category}</p>
+                    </div>
+                    <p className="work-desc">{project.desc}</p>
+                    <div className="work-tools-flex">
+                      {project.tools.map((tool) => (
+                        <span className="work-tool-pill" key={tool}>
+                          {tool}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <h4>Tools and features</h4>
-                <p>{project.tools}</p>
               </div>
-              <WorkImage
-                image={project.image}
-                alt={project.title}
-                link={project.link}
-              />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
