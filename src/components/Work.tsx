@@ -1,220 +1,170 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger);
-
-const projects = [
-  {
-    id: "01",
-    title: "RAAHI — Driver Drowsiness Detection App",
-    category: "Product Design & HCI",
-    tools: ["Figma Slides", "HCI Ergonomics", "ADAS Interaction", "3D Mascot"],
-    image: "/images/projects/raahi_cover.png",
-    link: "https://www.figma.com/slides/1yxd6fB3wZeWLXaoihFZdb/Driver-Drowsiness--Copy-",
-    stepLabel: "CASE STUDY 01",
-    side: "left",
-    desc: "A multimodal mobile companion app engineered to detect driver fatigue in commercial fleet drivers using cognitive ergonomics and conversational AI nudges.",
-  },
-  {
-    id: "02",
-    title: "Beyond Reality — Evolution of VR & AR",
-    category: "Spatial Design & Research",
-    tools: ["Adobe InDesign", "Photoshop", "Spatial Interaction", "53-Page Publication"],
-    image: "/images/projects/beyond_reality_cover.png",
-    link: "https://startling-stroopwafel-805e80.netlify.app/assets/aistudio/Final_Magazine_VR___AR_9aa001e7.pdf",
-    stepLabel: "RESEARCH 02",
-    side: "right",
-    desc: "A comprehensive 53-page spatial computing research publication synthesizing VR/AR evolution, spatial ergonomics, perceptual latency, and futuristic UI paradigms.",
-  },
-  {
-    id: "03",
-    title: "Hanging Garden: Bloom — Editorial Travel Magazine",
-    category: "Editorial Design & Typography",
-    tools: ["Adobe InDesign", "Editorial Typography", "Color Grading", "Layout Architecture"],
-    image: "/images/projects/hanging_garden_cover.jpg",
-    link: "https://startling-stroopwafel-805e80.netlify.app/assets/aistudio/Aqsa-Magazine_3a00bb79.pdf",
-    stepLabel: "PUBLICATION 03",
-    side: "left",
-    desc: "A luxury editorial travel publication showcasing experimental grid structures, bespoke Swiss typography, and high-fidelity visual narrative curation.",
-  },
-  {
-    id: "04",
-    title: "Ferrari F40 — Kinetic Typographic Poster",
-    category: "Visual Identity & Swiss Typography",
-    tools: ["Adobe Illustrator", "Photoshop", "Swiss Grid Systems", "Telemetry Typography"],
-    image: "/images/projects/ferrari_cover.png",
-    link: "https://startling-stroopwafel-805e80.netlify.app/",
-    stepLabel: "VISUAL IDENTITY 04",
-    side: "right",
-    desc: "A commemorative automotive typography poster honoring the legendary Ferrari F40, utilizing dynamic telemetry data, strict Swiss grids, and kinetic letter architecture.",
-  },
-];
-
-// Single Sinuous Spiral Path: Center (80,0) -> Left (15,250) -> Right (145,600) -> Left (15,950) -> Right (145,1230) -> Center (80,1400)
-const WORK_SPIRAL_PATH_D =
-  "M 80,0 C 80,100 15,160 15,250 C 15,380 145,480 145,600 C 145,740 15,820 15,950 C 15,1080 145,1140 145,1230 C 145,1330 80,1360 80,1400";
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const Work = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
-  const dotRef = useRef<SVGCircleElement>(null);
+  useGSAP(() => {
+    let timeline: gsap.core.Timeline | null = null;
 
-  useEffect(() => {
-    const el = containerRef.current;
-    const path = pathRef.current;
-    const dot = dotRef.current;
-    if (!el || !path || !dot) return;
+    function initWorkScroll() {
+      const workFlex = document.querySelector(".work-flex") as HTMLElement;
+      const boxes = document.querySelectorAll(".work-box");
+      const section = document.querySelector(".work-section") as HTMLElement;
+      if (!workFlex || !boxes.length || !section) return;
 
-    const length = path.getTotalLength();
-    path.style.strokeDasharray = `${length} ${length}`;
-    path.style.strokeDashoffset = `${length}`;
+      // Kill previous instance if resizing or re-initializing
+      if (timeline) {
+        timeline.kill();
+        ScrollTrigger.getById("work")?.kill();
+      }
 
-    const startPt = path.getPointAtLength(0);
-    gsap.set(dot, { attr: { cx: startPt.x, cy: startPt.y }, opacity: 0 });
+      // Reset x before measuring to guarantee 100% accurate bounding coordinates
+      gsap.set(workFlex, { x: 0 });
 
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: el,
-        start: "top 72%",
-        end: "bottom 60%",
-        scrub: 0.6,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          const currentLength = progress * length;
+      const lastBox = boxes[boxes.length - 1] as HTMLElement;
+      const lastBoxRect = lastBox.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
 
-          // Single spiral path draws itself!
-          path.style.strokeDashoffset = `${Math.max(0, length - currentLength)}`;
+      // Center the final card horizontally if screen is wider than the card,
+      // or maintain comfortable padding on smaller screens
+      const rightPadding = Math.max(40, (viewportWidth - lastBox.offsetWidth) / 2);
+      const targetTravel = Math.max(0, lastBoxRect.right - viewportWidth + rightPadding);
 
-          // Glowing dot rides right on the single spiral curve!
-          const pt = path.getPointAtLength(currentLength);
-          gsap.set(dot, {
-            attr: { cx: pt.x, cy: pt.y },
-            opacity: progress > 0.01 ? 1 : 0,
-          });
+      // Pin duration: give ample vertical scroll travel so all 4 projects are comfortably experienced
+      const pinDistance = Math.max(1800, Math.round(targetTravel * 1.35 + 300));
+
+      timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".work-section",
+          start: "top top",
+          end: `+=${pinDistance}`,
+          scrub: 1,
+          pin: true,
+          pinSpacing: true,
+          id: "work",
+          invalidateOnRefresh: true,
         },
       });
-    }, containerRef);
 
-    return () => ctx.revert();
+      // Animate cards across the viewport AND the horizontal living circuit beam
+      timeline.to(
+        ".work-flex",
+        {
+          x: -targetTravel,
+          ease: "none",
+          duration: 1,
+        },
+        0
+      );
+
+      timeline.fromTo(
+        ".work-circuit-line",
+        { width: "0%" },
+        {
+          width: "100%",
+          ease: "none",
+          duration: 1,
+        },
+        0
+      );
+
+      // Generous hold at the end so the user can inspect the 4th project before unpinning
+      timeline.to({}, { duration: 0.3 });
+    }
+
+    initWorkScroll();
+
+    const handleResize = () => {
+      initWorkScroll();
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      timeline?.kill();
+      ScrollTrigger.getById("work")?.kill();
+    };
   }, []);
 
+  // Aqsa Javed — Real Case Studies & Projects
+  const projects = [
+    {
+      id: "01",
+      title: "RAAHI — Driver Drowsiness Detection App",
+      category: "Product Design & HCI",
+      tools: "Figma Slides, HCI Ergonomics, ADAS Interaction Models, 3D Mascot",
+      image: "/images/projects/raahi_cover.png",
+      link: "https://www.figma.com/slides/1yxd6fB3wZeWLXaoihFZdb/Driver-Drowsiness--Copy-",
+    },
+    {
+      id: "02",
+      title: "Beyond Reality — Evolution of VR & AR",
+      category: "Spatial Design & Research",
+      tools: "Adobe InDesign, Photoshop, Spatial Interaction, HCI Literature Synthesis, 53 Pages",
+      image: "/images/projects/beyond_reality_cover.png",
+      link: "https://startling-stroopwafel-805e80.netlify.app/assets/aistudio/Final_Magazine_VR___AR_9aa001e7.pdf",
+    },
+    {
+      id: "03",
+      title: "Hanging Garden: Bloom — Editorial Travel Magazine",
+      category: "Editorial Design & Typography",
+      tools: "Adobe InDesign, Editorial Typography, Curated Color Grading, Layout Architecture",
+      image: "/images/projects/hanging_garden_cover.jpg",
+      link: "https://startling-stroopwafel-805e80.netlify.app/assets/aistudio/Aqsa-Magazine_3a00bb79.pdf",
+    },
+    {
+      id: "04",
+      title: "Ferrari F40 — Kinetic Typographic Poster",
+      category: "Visual Identity & Swiss Typography",
+      tools: "Adobe Illustrator, Photoshop, Swiss Grid Systems, Automotive Telemetry Typography",
+      image: "/images/projects/ferrari_cover.png",
+      link: "https://startling-stroopwafel-805e80.netlify.app/",
+    },
+  ];
+
   return (
-    <section className="work-section section-container" id="work">
-      <div className="work-container">
-        <div className="work-header">
-          <h2>
-            Featured <span>Work</span>
-          </h2>
-          <p>Selected Case Studies, Spatial Interfaces &amp; Editorial Research</p>
+    <div className="work-section" id="work">
+      <div className="work-container section-container">
+        <h2>
+          My <span>Work</span>
+        </h2>
+        {/* Living Circuit Horizontal Energy Beam */}
+        <div className="work-circuit-track">
+          <div className="work-circuit-line">
+            <div className="work-circuit-dot"></div>
+          </div>
         </div>
+        <div className="work-flex">
+          {projects.map((project) => (
+            <div className="work-box" key={project.id}>
+              <div className="work-info">
+                <div className="work-title">
+                  <h3>{project.id}</h3>
 
-        <div className="work-spiral-wrapper" ref={containerRef}>
-          {/* Single Spiral Spine with Merged Line Progress */}
-          <div className="work-spiral-spine">
-            <svg
-              className="work-spiral-svg"
-              viewBox="0 0 160 1400"
-              preserveAspectRatio="none"
-              fill="none"
-              aria-hidden="true"
-            >
-              <defs>
-                <linearGradient id="work-spiral-grad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#7f40ff" stopOpacity="0.4" />
-                  <stop offset="30%" stopColor="#aa42ff" stopOpacity="0.9" />
-                  <stop offset="70%" stopColor="#c2a4ff" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#ffffff" stopOpacity="1" />
-                </linearGradient>
-                <filter id="work-dot-glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="3.5" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-
-              {/* Faint Background Guide Track */}
-              <path
-                className="spiral-track-path"
-                d={WORK_SPIRAL_PATH_D}
-                stroke="rgba(194, 164, 255, 0.16)"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-
-              {/* Active Energy Progress Stroke */}
-              <path
-                ref={pathRef}
-                className="spiral-progress-path"
-                d={WORK_SPIRAL_PATH_D}
-                stroke="url(#work-spiral-grad)"
-                strokeWidth="3.5"
-                strokeLinecap="round"
-              />
-
-              {/* Electric Energy Dot Gliding on the Spiral */}
-              <circle
-                ref={dotRef}
-                className="spiral-energy-dot"
-                r="7"
-                fill="#ffffff"
-                stroke="#aa42ff"
-                strokeWidth="3"
-                filter="url(#work-dot-glow)"
-              />
-            </svg>
-          </div>
-
-          {/* Alternating Spiral Project Nodes */}
-          <div className="work-spiral-nodes">
-            {projects.map((project) => (
-              <div
-                className={`work-spiral-node work-node-${project.side}`}
-                key={project.id}
-              >
-                {/* Node Anchor where Spiral touches card */}
-                <div className="work-node-anchor" aria-hidden="true">
-                  <span className="work-anchor-dot"></span>
-                </div>
-
-                <div className="work-box work-spiral-card">
-                  <div className="work-card-header">
-                    <span className="work-strand-badge">{project.stepLabel}</span>
-                    <span className="work-project-id">PROJECT {project.id}</span>
-                  </div>
-
-                  <WorkImage
-                    image={project.image}
-                    alt={project.title}
-                    link={project.link}
-                  />
-
-                  <div className="work-info">
-                    <div className="work-title">
-                      <h4>{project.title}</h4>
-                      <p className="work-category">{project.category}</p>
-                    </div>
-                    <p className="work-desc">{project.desc}</p>
-                    <div className="work-tools-flex">
-                      {project.tools.map((tool) => (
-                        <span className="work-tool-pill" key={tool}>
-                          {tool}
-                        </span>
-                      ))}
-                    </div>
+                  <div>
+                    <h4>{project.title}</h4>
+                    <p>{project.category}</p>
                   </div>
                 </div>
+                <h4>Tools and features</h4>
+                <p>{project.tools}</p>
               </div>
-            ))}
-          </div>
+              <WorkImage
+                image={project.image}
+                alt={project.title}
+                link={project.link}
+              />
+            </div>
+          ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
