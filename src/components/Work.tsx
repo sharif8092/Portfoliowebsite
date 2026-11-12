@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./styles/Work.css";
@@ -14,7 +14,7 @@ const projects = [
     tools: ["Figma Slides", "HCI Ergonomics", "ADAS Interaction", "3D Mascot"],
     image: "/images/projects/raahi_cover.png",
     link: "https://www.figma.com/slides/1yxd6fB3wZeWLXaoihFZdb/Driver-Drowsiness--Copy-",
-    strand: "HELIX STRAND α",
+    stepLabel: "CASE STUDY 01",
     side: "left",
     desc: "A multimodal mobile companion app engineered to detect driver fatigue in commercial fleet drivers using cognitive ergonomics and conversational AI nudges.",
   },
@@ -25,7 +25,7 @@ const projects = [
     tools: ["Adobe InDesign", "Photoshop", "Spatial Interaction", "53-Page Publication"],
     image: "/images/projects/beyond_reality_cover.png",
     link: "https://startling-stroopwafel-805e80.netlify.app/assets/aistudio/Final_Magazine_VR___AR_9aa001e7.pdf",
-    strand: "HELIX STRAND β",
+    stepLabel: "RESEARCH 02",
     side: "right",
     desc: "A comprehensive 53-page spatial computing research publication synthesizing VR/AR evolution, spatial ergonomics, perceptual latency, and futuristic UI paradigms.",
   },
@@ -36,7 +36,7 @@ const projects = [
     tools: ["Adobe InDesign", "Editorial Typography", "Color Grading", "Layout Architecture"],
     image: "/images/projects/hanging_garden_cover.jpg",
     link: "https://startling-stroopwafel-805e80.netlify.app/assets/aistudio/Aqsa-Magazine_3a00bb79.pdf",
-    strand: "HELIX STRAND α",
+    stepLabel: "PUBLICATION 03",
     side: "left",
     desc: "A luxury editorial travel publication showcasing experimental grid structures, bespoke Swiss typography, and high-fidelity visual narrative curation.",
   },
@@ -47,32 +47,57 @@ const projects = [
     tools: ["Adobe Illustrator", "Photoshop", "Swiss Grid Systems", "Telemetry Typography"],
     image: "/images/projects/ferrari_cover.png",
     link: "https://startling-stroopwafel-805e80.netlify.app/",
-    strand: "HELIX STRAND β",
+    stepLabel: "VISUAL IDENTITY 04",
     side: "right",
     desc: "A commemorative automotive typography poster honoring the legendary Ferrari F40, utilizing dynamic telemetry data, strict Swiss grids, and kinetic letter architecture.",
   },
 ];
 
+// Single Sinuous Spiral Path: Center (80,0) -> Left (15,250) -> Right (145,600) -> Left (15,950) -> Right (145,1230) -> Center (80,1400)
+const WORK_SPIRAL_PATH_D =
+  "M 80,0 C 80,100 15,160 15,250 C 15,380 145,480 145,600 C 145,740 15,820 15,950 C 15,1080 145,1140 145,1230 C 145,1330 80,1360 80,1400";
+
 const Work = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const dotRef = useRef<SVGCircleElement>(null);
+
   useEffect(() => {
+    const el = containerRef.current;
+    const path = pathRef.current;
+    const dot = dotRef.current;
+    if (!el || !path || !dot) return;
+
+    const length = path.getTotalLength();
+    path.style.strokeDasharray = `${length} ${length}`;
+    path.style.strokeDashoffset = `${length}`;
+
+    const startPt = path.getPointAtLength(0);
+    gsap.set(dot, { attr: { cx: startPt.x, cy: startPt.y }, opacity: 0 });
+
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".work-circuit-line",
-        { maxHeight: "0%", opacity: 0 },
-        {
-          maxHeight: "100%",
-          opacity: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".work-dna-wrapper",
-            start: "top 72%",
-            end: "bottom 60%",
-            scrub: 0.6,
-            invalidateOnRefresh: true,
-          },
-        }
-      );
-    });
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top 72%",
+        end: "bottom 60%",
+        scrub: 0.6,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const currentLength = progress * length;
+
+          // Single spiral path draws itself!
+          path.style.strokeDashoffset = `${Math.max(0, length - currentLength)}`;
+
+          // Glowing dot rides right on the single spiral curve!
+          const pt = path.getPointAtLength(currentLength);
+          gsap.set(dot, {
+            attr: { cx: pt.x, cy: pt.y },
+            opacity: progress > 0.01 ? 1 : 0,
+          });
+        },
+      });
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
@@ -87,79 +112,79 @@ const Work = () => {
           <p>Selected Case Studies, Spatial Interfaces &amp; Editorial Research</p>
         </div>
 
-        <div className="work-dna-wrapper">
-          {/* Central DNA Double-Helix Spine */}
-          <div className="work-dna-spine">
+        <div className="work-spiral-wrapper" ref={containerRef}>
+          {/* Single Spiral Spine with Merged Line Progress */}
+          <div className="work-spiral-spine">
             <svg
-              className="work-dna-svg"
-              viewBox="0 0 60 1400"
+              className="work-spiral-svg"
+              viewBox="0 0 160 1400"
               preserveAspectRatio="none"
               fill="none"
               aria-hidden="true"
             >
               <defs>
-                <linearGradient id="work-dna-grad-alpha" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#c2a4ff" stopOpacity="0.25" />
-                  <stop offset="50%" stopColor="#aa42ff" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.95" />
+                <linearGradient id="work-spiral-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#7f40ff" stopOpacity="0.4" />
+                  <stop offset="30%" stopColor="#aa42ff" stopOpacity="0.9" />
+                  <stop offset="70%" stopColor="#c2a4ff" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="1" />
                 </linearGradient>
-                <linearGradient id="work-dna-grad-beta" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#7f40ff" stopOpacity="0.25" />
-                  <stop offset="50%" stopColor="#d29bff" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#aa42ff" stopOpacity="0.9" />
-                </linearGradient>
+                <filter id="work-dot-glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="3.5" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
               </defs>
 
-              {/* Nucleotide Base Pair Horizontal Cross Rungs */}
-              <line x1="12" y1="140" x2="48" y2="140" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="18" y1="320" x2="42" y2="320" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="12" y1="500" x2="48" y2="500" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="18" y1="680" x2="42" y2="680" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="12" y1="860" x2="48" y2="860" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="18" y1="1040" x2="42" y2="1040" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="12" y1="1220" x2="48" y2="1220" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-
-              {/* Sinuous Intertwined Double-Helix Wave Paths */}
+              {/* Faint Background Guide Track */}
               <path
-                d="M 30,0 C 8,120 8,240 30,360 C 52,480 52,600 30,720 C 8,840 8,960 30,1080 C 52,1200 52,1320 30,1400"
-                stroke="url(#work-dna-grad-alpha)"
+                className="spiral-track-path"
+                d={WORK_SPIRAL_PATH_D}
+                stroke="rgba(194, 164, 255, 0.16)"
                 strokeWidth="2.5"
                 strokeLinecap="round"
               />
+
+              {/* Active Energy Progress Stroke */}
               <path
-                d="M 30,0 C 52,120 52,240 30,360 C 8,480 8,600 30,720 C 52,840 52,960 30,1080 C 8,1200 8,1320 30,1400"
-                stroke="url(#work-dna-grad-beta)"
-                strokeWidth="2.5"
+                ref={pathRef}
+                className="spiral-progress-path"
+                d={WORK_SPIRAL_PATH_D}
+                stroke="url(#work-spiral-grad)"
+                strokeWidth="3.5"
                 strokeLinecap="round"
+              />
+
+              {/* Electric Energy Dot Gliding on the Spiral */}
+              <circle
+                ref={dotRef}
+                className="spiral-energy-dot"
+                r="7"
+                fill="#ffffff"
+                stroke="#aa42ff"
+                strokeWidth="3"
+                filter="url(#work-dot-glow)"
               />
             </svg>
-
-            {/* Living Circuit Central Spine */}
-            <div className="work-circuit-track">
-              <div className="work-circuit-line">
-                <div className="work-circuit-dot"></div>
-              </div>
-            </div>
           </div>
 
-          {/* DNA Alternating Spiral Project Nodes */}
-          <div className="work-dna-nodes">
-            {projects.map((project, index) => (
+          {/* Alternating Spiral Project Nodes */}
+          <div className="work-spiral-nodes">
+            {projects.map((project) => (
               <div
-                className={`work-dna-node ${
-                  index % 2 === 0 ? "work-node-left" : "work-node-right"
-                }`}
+                className={`work-spiral-node work-node-${project.side}`}
                 key={project.id}
               >
-                {/* Nucleotide Connector Rung */}
-                <div className="work-dna-rung" aria-hidden="true">
-                  <span className="work-rung-line"></span>
-                  <span className="work-rung-node"></span>
+                {/* Node Anchor where Spiral touches card */}
+                <div className="work-node-anchor" aria-hidden="true">
+                  <span className="work-anchor-dot"></span>
                 </div>
 
-                <div className="work-box work-dna-card">
+                <div className="work-box work-spiral-card">
                   <div className="work-card-header">
-                    <span className="work-strand-badge">{project.strand}</span>
+                    <span className="work-strand-badge">{project.stepLabel}</span>
                     <span className="work-project-id">PROJECT {project.id}</span>
                   </div>
 

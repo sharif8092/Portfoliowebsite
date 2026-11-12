@@ -158,12 +158,6 @@ export function setAllTimeline() {
 
   careerTimelineInstance
     .fromTo(
-      ".career-timeline",
-      { maxHeight: "0%", opacity: 0 },
-      { maxHeight: "100%", opacity: 1, duration: 1, ease: "none" },
-      0
-    )
-    .fromTo(
       ".career-info-box",
       { opacity: 0.35, y: 15 },
       {

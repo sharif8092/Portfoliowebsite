@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./styles/DesignProcess.css";
@@ -12,7 +12,7 @@ const processSteps = [
     description:
       "Deeply understanding human behaviors, pain points, and systemic challenges through user interviews, qualitative observations, and problem space mapping.",
     tags: ["User Research", "Empathy Mapping", "Problem Discovery", "User Interviews"],
-    strand: "HELIX STRAND α",
+    stepLabel: "PHASE 01 // DISCOVERY",
     side: "left",
   },
   {
@@ -21,7 +21,7 @@ const processSteps = [
     description:
       "Transforming complex research findings and technological logic into clear information architecture, user journey maps, and structural wireframes.",
     tags: ["Information Architecture", "Journey Mapping", "User Flows", "Wireframing"],
-    strand: "HELIX STRAND β",
+    stepLabel: "PHASE 02 // ARCHITECTURE",
     side: "right",
   },
   {
@@ -30,7 +30,7 @@ const processSteps = [
     description:
       "Crafting intuitive visual interfaces, cohesive design systems, and dynamic interactive prototypes with meticulous attention to detail and hierarchy.",
     tags: ["UI Design", "Design Systems", "Interactive Prototyping", "Micro-interactions"],
-    strand: "HELIX STRAND α",
+    stepLabel: "PHASE 03 // PROTOTYPING",
     side: "left",
   },
   {
@@ -39,7 +39,7 @@ const processSteps = [
     description:
       "Testing solutions with real users, synthesizing feedback against technological constraints, and iteratively refining digital experiences for maximum impact.",
     tags: ["Usability Testing", "Feedback Synthesis", "Accessibility", "Continuous Refinement"],
-    strand: "HELIX STRAND β",
+    stepLabel: "PHASE 04 // VALIDATION",
     side: "right",
   },
 ];
@@ -59,26 +59,51 @@ const competencies = [
   "Computer Science Logic & Web Standards",
 ];
 
+// Single Sinuous Spiral Path: Center (80,0) -> Left (15,180) -> Right (145,420) -> Left (15,660) -> Right (145,880) -> Center (80,1000)
+const PROCESS_SPIRAL_PATH_D =
+  "M 80,0 C 80,70 15,110 15,180 C 15,280 145,340 145,420 C 145,520 15,580 15,660 C 15,760 145,800 145,880 C 145,950 80,970 80,1000";
+
 const DesignProcess = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const dotRef = useRef<SVGCircleElement>(null);
+
   useEffect(() => {
+    const el = containerRef.current;
+    const path = pathRef.current;
+    const dot = dotRef.current;
+    if (!el || !path || !dot) return;
+
+    const length = path.getTotalLength();
+    path.style.strokeDasharray = `${length} ${length}`;
+    path.style.strokeDashoffset = `${length}`;
+
+    const startPt = path.getPointAtLength(0);
+    gsap.set(dot, { attr: { cx: startPt.x, cy: startPt.y }, opacity: 0 });
+
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".process-circuit-line",
-        { maxHeight: "0%", opacity: 0 },
-        {
-          maxHeight: "100%",
-          opacity: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".process-dna-wrapper",
-            start: "top 72%",
-            end: "bottom 60%",
-            scrub: 0.6,
-            invalidateOnRefresh: true,
-          },
-        }
-      );
-    });
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top 72%",
+        end: "bottom 60%",
+        scrub: 0.6,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const currentLength = progress * length;
+
+          // Single spiral draws itself!
+          path.style.strokeDashoffset = `${Math.max(0, length - currentLength)}`;
+
+          // Glowing dot rides right on the single spiral curve!
+          const pt = path.getPointAtLength(currentLength);
+          gsap.set(dot, {
+            attr: { cx: pt.x, cy: pt.y },
+            opacity: progress > 0.01 ? 1 : 0,
+          });
+        },
+      });
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
@@ -94,82 +119,79 @@ const DesignProcess = () => {
           <p>From understanding technology to designing intuitive experiences</p>
         </div>
 
-        <div className="process-dna-wrapper">
-          {/* Central DNA Double-Helix Spine */}
-          <div className="process-dna-spine">
+        <div className="process-spiral-wrapper" ref={containerRef}>
+          {/* Single Spiral Spine with Merged Line Progress */}
+          <div className="process-spiral-spine">
             <svg
-              className="process-dna-svg"
-              viewBox="0 0 60 920"
+              className="process-spiral-svg"
+              viewBox="0 0 160 1000"
               preserveAspectRatio="none"
               fill="none"
               aria-hidden="true"
             >
               <defs>
-                <linearGradient id="process-dna-grad-alpha" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#c2a4ff" stopOpacity="0.25" />
-                  <stop offset="50%" stopColor="#aa42ff" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.95" />
+                <linearGradient id="process-spiral-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#7f40ff" stopOpacity="0.4" />
+                  <stop offset="30%" stopColor="#aa42ff" stopOpacity="0.9" />
+                  <stop offset="70%" stopColor="#c2a4ff" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="1" />
                 </linearGradient>
-                <linearGradient id="process-dna-grad-beta" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#7f40ff" stopOpacity="0.25" />
-                  <stop offset="50%" stopColor="#d29bff" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#aa42ff" stopOpacity="0.9" />
-                </linearGradient>
+                <filter id="process-dot-glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="3.5" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
               </defs>
 
-              {/* Nucleotide Base Pair Horizontal Cross Rungs */}
-              <line x1="12" y1="110" x2="48" y2="110" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="18" y1="220" x2="42" y2="220" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="12" y1="330" x2="48" y2="330" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="18" y1="440" x2="42" y2="440" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="12" y1="550" x2="48" y2="550" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="18" y1="660" x2="42" y2="660" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="12" y1="770" x2="48" y2="770" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="18" y1="880" x2="42" y2="880" stroke="rgba(194, 164, 255, 0.35)" strokeWidth="1.5" strokeDasharray="3 3" />
-
-              {/* Sinuous Intertwined Double-Helix Wave Paths */}
+              {/* Faint Background Guide Track */}
               <path
-                d="M 30,0 C 8,80 8,180 30,260 C 52,340 52,440 30,520 C 8,600 8,700 30,780 C 52,840 52,890 30,920"
-                stroke="url(#process-dna-grad-alpha)"
+                className="spiral-track-path"
+                d={PROCESS_SPIRAL_PATH_D}
+                stroke="rgba(194, 164, 255, 0.16)"
                 strokeWidth="2.5"
                 strokeLinecap="round"
               />
+
+              {/* Active Energy Progress Stroke */}
               <path
-                d="M 30,0 C 52,80 52,180 30,260 C 8,340 8,440 30,520 C 52,600 52,700 30,780 C 8,840 8,890 30,920"
-                stroke="url(#process-dna-grad-beta)"
-                strokeWidth="2.5"
+                ref={pathRef}
+                className="spiral-progress-path"
+                d={PROCESS_SPIRAL_PATH_D}
+                stroke="url(#process-spiral-grad)"
+                strokeWidth="3.5"
                 strokeLinecap="round"
+              />
+
+              {/* Electric Energy Dot Gliding on the Spiral */}
+              <circle
+                ref={dotRef}
+                className="spiral-energy-dot"
+                r="7"
+                fill="#ffffff"
+                stroke="#aa42ff"
+                strokeWidth="3"
+                filter="url(#process-dot-glow)"
               />
             </svg>
-
-            {/* Living Circuit Central Spine */}
-            <div className="process-circuit-track">
-              <div className="process-circuit-line">
-                <div className="process-circuit-dot"></div>
-              </div>
-            </div>
           </div>
 
-          {/* DNA Alternating Spiral Step Nodes */}
-          <div className="process-dna-nodes">
-            {processSteps.map((item, index) => (
+          {/* Alternating Spiral Step Nodes */}
+          <div className="process-spiral-nodes">
+            {processSteps.map((item) => (
               <div
-                className={`process-dna-node ${
-                  index % 2 === 0 ? "process-node-left" : "process-node-right"
-                }`}
+                className={`process-spiral-node process-node-${item.side}`}
                 key={item.step}
               >
-                {/* Nucleotide Connector Rung */}
-                <div className="process-dna-rung" aria-hidden="true">
-                  <span className="process-rung-line"></span>
-                  <span className="process-rung-node"></span>
+                {/* Node Anchor where Spiral touches card */}
+                <div className="process-node-anchor" aria-hidden="true">
+                  <span className="process-anchor-dot"></span>
                 </div>
 
-                <div className="process-card process-dna-card">
+                <div className="process-card process-spiral-card">
                   <div className="process-card-header">
-                    <span className="process-strand-badge">
-                      {item.strand}
-                    </span>
+                    <span className="process-strand-badge">{item.stepLabel}</span>
                     <div className="process-step">{item.step}</div>
                   </div>
                   <h3>{item.title}</h3>

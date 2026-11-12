@@ -54,20 +54,20 @@
   font-weight: 400;
 }
 
-/* DNA Wrapper */
-.work-dna-wrapper {
+/* Single Spiral Wrapper */
+.work-spiral-wrapper {
   position: relative;
   width: 100%;
 }
 
-/* Central DNA Double-Helix Spine */
-.work-dna-spine {
+/* Central Single Spiral Spine with Merged Progress Line */
+.work-spiral-spine {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
+  width: 160px;
   height: 100%;
   pointer-events: none;
   z-index: 2;
@@ -75,61 +75,34 @@
   justify-content: center;
 }
 
-.work-dna-svg {
+.work-spiral-svg {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   overflow: visible;
-  filter: drop-shadow(0 0 8px rgba(194, 164, 255, 0.45));
 }
 
-.work-circuit-track {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2.5px;
-  height: 100%;
-  background: transparent;
-  pointer-events: none;
-  z-index: 2;
+.spiral-track-path {
+  opacity: 0.7;
 }
 
-.work-circuit-line {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  max-height: 0%;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    var(--accentColor) 20%,
-    #aa42ff 100%
-  );
-  box-shadow: 0 0 14px rgba(194, 164, 255, 0.75);
-  will-change: max-height;
+.spiral-progress-path {
+  filter: drop-shadow(0 0 10px rgba(194, 164, 255, 0.8))
+          drop-shadow(0 0 20px rgba(170, 66, 255, 0.45));
+  will-change: stroke-dashoffset;
 }
 
-.work-circuit-dot {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 50%);
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background-color: #aa42ff;
-  box-shadow: 0px 0px 6px 3px #d29bff, 0px 0px 16px 8px #d097ff,
-    0px 0px 60px 15px rgba(242, 192, 255, 0.7);
-  animation: timeline 0.8s linear infinite forwards;
+.spiral-energy-dot {
+  filter: drop-shadow(0 0 8px #ffffff)
+          drop-shadow(0 0 16px #aa42ff)
+          drop-shadow(0 0 30px rgba(242, 192, 255, 0.9));
+  animation: spiralDotPulse 1.2s ease-in-out infinite alternate;
 }
 
-/* Alternating DNA Project Nodes */
-.work-dna-nodes {
+/* Alternating Spiral Project Nodes */
+.work-spiral-nodes {
   display: flex;
   flex-direction: column;
   gap: 75px;
@@ -137,7 +110,7 @@
   z-index: 3;
 }
 
-.work-dna-node {
+.work-spiral-node {
   position: relative;
   width: 45%;
   display: flex;
@@ -157,59 +130,38 @@
   transform: perspective(1000px) rotateY(-3deg);
 }
 
-/* Nucleotide Connector Rung */
-.work-dna-rung {
+/* Node Anchor where Spiral touches card */
+.work-node-anchor {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  height: 2px;
+  width: 14px;
+  height: 14px;
   display: flex;
   align-items: center;
+  justify-content: center;
   pointer-events: none;
-  z-index: 1;
+  z-index: 4;
 }
 
-.work-node-left .work-dna-rung {
-  right: -58px;
-  width: 58px;
-  flex-direction: row;
+.work-node-left .work-node-anchor {
+  right: -7px;
 }
 
-.work-node-right .work-dna-rung {
-  left: -58px;
-  width: 58px;
-  flex-direction: row-reverse;
+.work-node-right .work-node-anchor {
+  left: -7px;
 }
 
-.work-rung-line {
-  flex: 1;
-  height: 1.5px;
-  background: linear-gradient(
-    90deg,
-    rgba(194, 164, 255, 0.2),
-    rgba(194, 164, 255, 0.6)
-  );
-  border-top: 1px dashed rgba(194, 164, 255, 0.4);
-}
-
-.work-node-right .work-rung-line {
-  background: linear-gradient(
-    270deg,
-    rgba(194, 164, 255, 0.2),
-    rgba(194, 164, 255, 0.6)
-  );
-}
-
-.work-rung-node {
-  width: 7px;
-  height: 7px;
+.work-anchor-dot {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #c2a4ff;
   box-shadow: 0 0 10px #c2a4ff;
 }
 
 /* Glassmorphism Project Card */
-.work-dna-card {
+.work-spiral-card {
   width: 100%;
   background: rgba(255, 255, 255, 0.025);
   border: 1px solid rgba(194, 164, 255, 0.18);
@@ -228,7 +180,7 @@
   gap: 20px;
 }
 
-.work-dna-node:hover .work-dna-card {
+.work-spiral-node:hover .work-spiral-card {
   transform: translateY(-6px) scale(1.015);
   border-color: rgba(194, 164, 255, 0.45);
   box-shadow: 0 28px 55px -12px rgba(127, 64, 255, 0.28),
@@ -289,7 +241,7 @@
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.work-dna-card:hover .work-image img {
+.work-spiral-card:hover .work-image img {
   transform: scale(1.05);
 }
 
@@ -312,7 +264,7 @@
   z-index: 2;
 }
 
-.work-dna-card:hover .work-link {
+.work-spiral-card:hover .work-link {
   background: #aa42ff;
   border-color: #c2a4ff;
   transform: scale(1.1) rotate(45deg);
@@ -368,7 +320,7 @@
   transition: all 0.25s ease;
 }
 
-.work-dna-node:hover .work-tool-pill {
+.work-spiral-node:hover .work-tool-pill {
   border-color: rgba(194, 164, 255, 0.35);
   background: rgba(194, 164, 255, 0.1);
   color: #ffffff;
@@ -376,10 +328,10 @@
 
 /* Responsive */
 @media only screen and (max-width: 1024px) {
-  .work-dna-node {
+  .work-spiral-node {
     width: 44%;
   }
-  .work-dna-card {
+  .work-spiral-card {
     padding: 24px;
   }
   .work-title h4 {
@@ -399,24 +351,24 @@
     line-height: 44px;
     margin-bottom: 12px;
   }
-  .work-dna-spine {
+  .work-spiral-spine {
     left: 20px;
     transform: none;
     width: 30px;
   }
-  .work-dna-nodes {
+  .work-spiral-nodes {
     gap: 40px;
     padding-left: 55px;
   }
-  .work-dna-node {
+  .work-spiral-node {
     width: 100%;
     margin: 0 !important;
     transform: none !important;
   }
-  .work-dna-rung {
+  .work-node-anchor {
     display: none;
   }
-  .work-dna-card {
+  .work-spiral-card {
     padding: 20px 18px;
     border-radius: 20px;
   }
