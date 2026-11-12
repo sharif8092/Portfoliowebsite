@@ -29,7 +29,7 @@ const SignatureMotion = () => {
     if (!el) return;
 
     const ctx = gsap.context(() => {
-      // Scroll animation: Line moves through each letter of AQSA JAVED
+      // Scroll animation: Sequentially light up each letter of AQSA JAVED
       const validLetters = letterRefs.current.filter(
         (el): el is HTMLSpanElement => el !== null
       );
@@ -38,29 +38,21 @@ const SignatureMotion = () => {
         const letterTl = gsap.timeline({
           scrollTrigger: {
             trigger: ".kinetic-typography-stage",
-            start: "top 80%",
-            end: "bottom 80%",
+            start: "top 75%",
+            end: "bottom 75%",
             scrub: 0.6,
             invalidateOnRefresh: true,
           },
         });
 
-        // Horizontal circuit line draws across under the name
-        letterTl.fromTo(
-          ".kinetic-circuit-line",
-          { width: "0%" },
-          { width: "100%", ease: "none", duration: 1 },
-          0
-        );
-
-        // Light up each letter in sequence as the line passes through it
+        // Light up each letter in sequence as the user scrolls
         validLetters.forEach((letter, i) => {
           const startTime = (i / validLetters.length) * 0.9;
           letterTl.fromTo(
             letter,
             {
               color: "transparent",
-              WebkitTextStrokeColor: "rgba(194, 164, 255, 0.3)",
+              WebkitTextStrokeColor: "rgba(194, 164, 255, 0.35)",
               textShadow: "0 0 0px transparent",
               y: 8,
             },
@@ -175,12 +167,7 @@ const SignatureMotion = () => {
             )}
           </h1>
 
-          {/* Living Circuit Rail Traversing Under AQSA JAVED */}
-          <div className="kinetic-circuit-rail">
-            <div className="kinetic-circuit-line">
-              <div className="kinetic-circuit-dot" />
-            </div>
-          </div>
+
         </div>
 
         {/* Ticker marquee badge */}
