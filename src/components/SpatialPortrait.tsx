@@ -97,8 +97,8 @@ const SpatialPortrait = () => {
     const ctx = gsap.context(() => {
       const getTargetX = () => {
         const cardWidth = containerRef.current?.offsetWidth || 280;
-        // Positioned far to the right in the open area (~70px-100px from right edge)
-        const rightMargin = Math.max(65, Math.min(120, window.innerWidth * 0.07));
+        // Positioned comfortably in About Me (~140px-180px from right edge)
+        const rightMargin = Math.max(120, Math.min(200, window.innerWidth * 0.11));
         return window.innerWidth / 2 - rightMargin - cardWidth / 2;
       };
 
