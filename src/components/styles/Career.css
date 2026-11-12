@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  place-items: center;
   justify-content: center;
   position: relative;
   opacity: 1;
@@ -10,6 +9,13 @@
   margin: auto;
   margin-bottom: 80px;
   padding: 120px 0px;
+  width: var(--cWidth);
+  max-width: var(--cMaxWidth);
+  box-sizing: border-box;
+}
+
+.career-container {
+  width: 100%;
 }
 
 .career-section h2 {
@@ -25,210 +31,304 @@
   margin-top: 50px;
   margin-bottom: 90px;
 }
+
 .career-section h2 > span {
   font-family: "Geist", sans-serif;
   font-weight: 300;
 }
-.career-info {
+
+/* DNA Container */
+.career-dna-container {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  margin: 0px auto;
-}
-.career-info-box {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 50px;
-}
-.career-info-box p {
-  width: 40%;
-  font-size: 18px;
-  font-weight: 300;
-  margin: 0;
-}
-.career-info-in {
-  display: flex;
-  width: 40%;
-  justify-content: space-between;
-  gap: 50px;
-}
-.career-info h3 {
-  font-size: 48px;
-  margin: 0;
-  font-weight: 500;
-  line-height: 45px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.career-info h4 {
-  font-size: 33px;
-  line-height: 30px;
-  letter-spacing: 0.8px;
-  font-weight: 500;
-  margin: 0;
-}
-.career-info h5 {
-  font-weight: 400;
-  letter-spacing: 0.7px;
-  font-size: 20px;
-  text-transform: capitalize;
-  margin: 10px 0px;
-  color: var(--accentColor);
-}
-.career-timeline {
+/* Central DNA Double-Helix Spine */
+.career-dna-spine {
   position: absolute;
-  top: 0px;
+  top: 0;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 3px;
-  height: calc(100% - 40px);
-  background-image: linear-gradient(
-    to top,
-    #aa42ff 20%,
-    var(--accentColor) 50%,
-    transparent 95%
-  );
-  max-height: 0%;
+  width: 60px;
+  height: 100%;
   pointer-events: none;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
 }
+
+.career-dna-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 8px rgba(194, 164, 255, 0.4));
+}
+
+/* Scroll-Driven Circuit Beam Inside Spine */
+.career-timeline {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2.5px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--accentColor) 20%,
+    #aa42ff 100%
+  );
+  box-shadow: 0 0 14px rgba(194, 164, 255, 0.7);
+  max-height: 0%;
+  will-change: max-height;
+}
+
 .career-dot {
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translate(-50%, 50%);
   background-color: #aa42ff;
-  width: 10px;
-  height: 10px;
-  border-radius: 50px;
-  box-shadow: 0px 0px 5px 2px #d29bff, 0px 0px 15px 8px #d097ff,
-    0px 0px 110px 20px #f2c0ff;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 6px 3px #d29bff, 0px 0px 18px 9px #d097ff,
+    0px 0px 70px 20px rgba(242, 192, 255, 0.7);
   animation: timeline 0.8s linear infinite forwards;
 }
 
 @keyframes timeline {
-  10%,
-  20%,
-  50%,
-  70%,
-  90% {
+  10%, 20%, 50%, 70%, 90% {
     box-shadow: 0px 0px 5px 2px #d29bff;
   }
-  10%,
-  30%,
-  0%,
-  100%,
-  64%,
-  80% {
-    box-shadow: 0px 0px 5px 2px #d29bff, 0px 0px 15px 5px #d097ff,
-      0px 0px 110px 20px #f2c0ff;
+  0%, 30%, 64%, 80%, 100% {
+    box-shadow: 0px 0px 6px 3px #d29bff, 0px 0px 18px 8px #d097ff,
+      0px 0px 80px 20px rgba(242, 192, 255, 0.7);
   }
 }
-@keyframes timeline2 {
-  0% {
-    box-shadow: 0px 0px 5px 2px #d29bff;
-  }
-  100% {
-    box-shadow: 0px 0px 5px 2px #d29bff, 0px 0px 15px 5px #d097ff,
-      0px 0px 110px 20px #f2c0ff;
-  }
-}
-@media only screen and (max-width: 1400px) {
-  .career-section h2 {
-    font-size: 50px;
-    line-height: 50px;
-  }
-  .career-info h4 {
-    font-size: 22px;
-    line-height: 24px;
-    width: 180px;
-  }
-  .career-info h5 {
-    font-size: 17px;
-  }
-  .career-info h3 {
-    font-size: 40px;
-  }
-  .career-info-box p {
-    font-size: 14px;
-  }
-  .career-info-in {
-    width: 45%;
-    gap: 20px;
-  }
 
-  .career-info-box p {
-    width: 45%;
+/* DNA Nodes Container */
+.career-dna-nodes {
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  position: relative;
+  z-index: 3;
+}
+
+/* Individual Alternating DNA Node */
+.career-dna-node {
+  position: relative;
+  width: 44%;
+  display: flex;
+  align-items: center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Left Node */
+.career-node-left {
+  margin-right: auto;
+  margin-left: 0;
+  transform: perspective(1000px) rotateY(3deg);
+}
+
+/* Right Node */
+.career-node-right {
+  margin-left: auto;
+  margin-right: 0;
+  transform: perspective(1000px) rotateY(-3deg);
+}
+
+/* Nucleotide Connector Rung */
+.career-dna-rung {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.career-node-left .career-dna-rung {
+  right: -58px;
+  width: 58px;
+  flex-direction: row;
+}
+
+.career-node-right .career-dna-rung {
+  left: -58px;
+  width: 58px;
+  flex-direction: row-reverse;
+}
+
+.career-rung-line {
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    rgba(194, 164, 255, 0.2),
+    rgba(194, 164, 255, 0.6)
+  );
+  border-top: 1px dashed rgba(194, 164, 255, 0.4);
+}
+
+.career-node-right .career-rung-line {
+  background: linear-gradient(
+    270deg,
+    rgba(194, 164, 255, 0.2),
+    rgba(194, 164, 255, 0.6)
+  );
+}
+
+.career-rung-node {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c2a4ff;
+  box-shadow: 0 0 10px #c2a4ff;
+}
+
+/* Glassmorphism Node Card */
+.career-dna-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(194, 164, 255, 0.18);
+  border-radius: 22px;
+  padding: 30px 32px;
+  box-sizing: border-box;
+  box-shadow: 0 18px 40px -14px rgba(0, 0, 0, 0.7),
+              inset 0 1px 1px rgba(255, 255, 255, 0.09);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.career-dna-node:hover .career-dna-card {
+  border-color: rgba(194, 164, 255, 0.45);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 24px 50px -12px rgba(127, 64, 255, 0.25),
+              0 0 25px rgba(194, 164, 255, 0.12),
+              inset 0 1px 2px rgba(255, 255, 255, 0.18);
+  transform: translateY(-4px) scale(1.015);
+}
+
+/* Card Top Bar */
+.career-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.career-strand-badge {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: rgba(194, 164, 255, 0.7);
+  background: rgba(194, 164, 255, 0.07);
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(194, 164, 255, 0.18);
+}
+
+.career-tag-pill {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(170, 66, 255, 0.4), rgba(194, 164, 255, 0.2));
+  border: 1px solid rgba(194, 164, 255, 0.35);
+  padding: 4px 14px;
+  border-radius: 100px;
+  box-shadow: 0 0 12px rgba(194, 164, 255, 0.2);
+}
+
+/* Typography inside card */
+.career-role h4 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+  margin: 0;
+  color: #ffffff;
+}
+
+.career-role h5 {
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  font-size: 14.5px;
+  text-transform: capitalize;
+  margin: 8px 0 14px 0;
+  color: var(--accentColor);
+}
+
+.career-dna-card p {
+  font-size: 14.5px;
+  line-height: 1.65;
+  font-weight: 300;
+  color: rgba(234, 229, 236, 0.8);
+  margin: 0;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1024px) {
+  .career-dna-node {
+    width: 43%;
+  }
+  .career-dna-card {
+    padding: 24px 22px;
+  }
+  .career-role h4 {
+    font-size: 20px;
+  }
+  .career-role h5 {
+    font-size: 13.5px;
   }
 }
-@media only screen and (max-width: 1025px) {
+
+@media only screen and (max-width: 768px) {
   .career-section {
-    padding: 70px 0px;
-    padding-top: 220px;
-    margin-top: -200px;
-    margin-bottom: 0;
-  }
-}
-@media only screen and (max-width: 900px) {
-  .career-info-box {
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 55px;
-  }
-  .career-info-in,
-  .career-info-box p {
-    width: 100%;
-    padding-left: 44px;
-    box-sizing: border-box;
-  }
-  .career-timeline {
-    left: 14px;
-  }
-  .career-container {
-    width: 100%;
-  }
-}
-@media only screen and (max-width: 600px) {
-  .career-info {
-    margin: 0;
-    width: 100%;
+    padding: 80px 0;
   }
   .career-section h2 {
+    font-size: 44px;
+    line-height: 44px;
+    margin-bottom: 50px;
+  }
+  .career-dna-spine {
+    left: 20px;
+    transform: none;
+    width: 30px;
+  }
+  .career-dna-nodes {
+    gap: 40px;
+    padding-left: 55px;
+  }
+  .career-dna-node {
     width: 100%;
-    font-size: clamp(34px, 8.5vw, 45px);
-    line-height: 1.1;
-    margin-top: 0px;
-    margin-bottom: 40px;
-    text-align: left;
+    margin: 0 !important;
+    transform: none !important;
   }
-  .career-info-in {
-    gap: 10px;
-    justify-content: space-between;
+  .career-dna-rung {
+    display: none;
   }
-  .career-info h3 {
-    font-size: 24px;
-    line-height: 24px;
+  .career-dna-card {
+    padding: 22px 18px;
+    border-radius: 18px;
   }
-  .career-info h4 {
+  .career-role h4 {
     font-size: 19px;
-    line-height: 24px;
-    width: auto;
   }
-  .career-info h5 {
-    font-size: 14px;
-  }
-  .career-info-in,
-  .career-info-box p {
-    padding-left: 34px;
-    font-size: 13.5px;
-    line-height: 21px;
-  }
-  .career-timeline {
-    left: 10px;
-  }
-  .career-section {
-    padding: 60px 0px 40px 0px;
-    margin-top: 0px;
-    align-items: start;
-    place-items: inherit;
-    justify-content: left;
+  .career-dna-card p {
+    font-size: 13px;
   }
 }

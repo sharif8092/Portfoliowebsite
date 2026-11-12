@@ -134,16 +134,66 @@ const Work = () => {
         <h2>
           My <span>Work</span>
         </h2>
-        {/* Living Circuit Horizontal Energy Beam */}
+        {/* Living Circuit Horizontal DNA Double Helix Energy Beam */}
         <div className="work-circuit-track">
+          <svg
+            className="work-dna-svg"
+            viewBox="0 0 1200 24"
+            preserveAspectRatio="none"
+            fill="none"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="work-dna-grad-a" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#7f40ff" stopOpacity="0.3" />
+                <stop offset="50%" stopColor="#c2a4ff" stopOpacity="0.75" />
+                <stop offset="100%" stopColor="#ffffff" stopOpacity="0.9" />
+              </linearGradient>
+              <linearGradient id="work-dna-grad-b" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#aa42ff" stopOpacity="0.2" />
+                <stop offset="50%" stopColor="#d29bff" stopOpacity="0.75" />
+                <stop offset="100%" stopColor="#aa42ff" stopOpacity="0.6" />
+              </linearGradient>
+            </defs>
+            {/* Base Pair Rungs */}
+            <line x1="150" y1="4" x2="150" y2="20" stroke="rgba(194, 164, 255, 0.4)" strokeWidth="1.5" strokeDasharray="2 2" />
+            <line x1="450" y1="4" x2="450" y2="20" stroke="rgba(194, 164, 255, 0.4)" strokeWidth="1.5" strokeDasharray="2 2" />
+            <line x1="750" y1="4" x2="750" y2="20" stroke="rgba(194, 164, 255, 0.4)" strokeWidth="1.5" strokeDasharray="2 2" />
+            <line x1="1050" y1="4" x2="1050" y2="20" stroke="rgba(194, 164, 255, 0.4)" strokeWidth="1.5" strokeDasharray="2 2" />
+
+            {/* Intertwining horizontal sine waves */}
+            <path
+              d="M 0,12 Q 150,-4 300,12 T 600,12 T 900,12 T 1200,12"
+              stroke="url(#work-dna-grad-a)"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 0,12 Q 150,28 300,12 T 600,12 T 900,12 T 1200,12"
+              stroke="url(#work-dna-grad-b)"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
           <div className="work-circuit-line">
             <div className="work-circuit-dot"></div>
           </div>
         </div>
         <div className="work-flex">
-          {projects.map((project) => (
-            <div className="work-box" key={project.id}>
+          {projects.map((project, index) => (
+            <div
+              className={`work-box work-dna-box ${
+                index % 2 === 0 ? "work-dna-upper" : "work-dna-lower"
+              }`}
+              key={project.id}
+            >
               <div className="work-info">
+                <div className="work-dna-indicator">
+                  <span className="work-dna-strand-badge">
+                    {index % 2 === 0 ? "HELIX STRAND α" : "HELIX STRAND β"}
+                  </span>
+                  <span className="work-dna-node-id">NODE {project.id}</span>
+                </div>
                 <div className="work-title">
                   <h3>{project.id}</h3>
 

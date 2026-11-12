@@ -11,17 +11,18 @@
   padding: 120px 0px 80px 0px;
   z-index: 9;
   clear: both;
+  box-sizing: border-box;
 }
 
 .design-process-container {
   width: 100%;
-  max-width: 1300px;
+  max-width: 1200px;
   margin: auto;
 }
 
 .design-process-header {
   text-align: center;
-  margin-bottom: 70px;
+  margin-bottom: 80px;
 }
 
 .design-process-header h2 {
@@ -44,7 +45,7 @@
 }
 
 .design-process-header p {
-  font-size: 16px;
+  font-size: 15px;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--accentColor);
@@ -52,21 +53,47 @@
   font-weight: 400;
 }
 
-.process-grid-wrapper {
+/* DNA Process Wrapper */
+.process-dna-wrapper {
   position: relative;
   width: 100%;
 }
 
-.process-circuit-track {
+/* Central DNA Double-Helix Spine */
+.process-dna-spine {
   position: absolute;
-  top: -30px;
+  top: 0;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 3px;
-  height: calc(100% + 30px);
-  background: rgba(194, 164, 255, 0.1);
+  width: 60px;
+  height: 100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+}
+
+.process-dna-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 8px rgba(194, 164, 255, 0.45));
+}
+
+.process-circuit-track {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2.5px;
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .process-circuit-line {
@@ -82,7 +109,7 @@
     var(--accentColor) 20%,
     #aa42ff 100%
   );
-  box-shadow: 0 0 12px rgba(194, 164, 255, 0.6);
+  box-shadow: 0 0 14px rgba(194, 164, 255, 0.75);
   will-change: max-height;
 }
 
@@ -96,77 +123,160 @@
   border-radius: 50%;
   background-color: #aa42ff;
   box-shadow: 0px 0px 6px 3px #d29bff, 0px 0px 16px 8px #d097ff,
-    0px 0px 60px 15px rgba(242, 192, 255, 0.6);
+    0px 0px 60px 15px rgba(242, 192, 255, 0.7);
   animation: timeline 0.8s linear infinite forwards;
 }
 
-.process-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
-  width: 100%;
+/* DNA Nodes Column */
+.process-dna-nodes {
+  display: flex;
+  flex-direction: column;
+  gap: 65px;
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
-.process-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Alternating Spiral Nodes */
+.process-dna-node {
+  position: relative;
+  width: 44%;
+  display: flex;
+  align-items: center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.process-node-left {
+  margin-right: auto;
+  margin-left: 0;
+  transform: perspective(1000px) rotateY(3.5deg);
+}
+
+.process-node-right {
+  margin-left: auto;
+  margin-right: 0;
+  transform: perspective(1000px) rotateY(-3.5deg);
+}
+
+/* Nucleotide Connector Rung */
+.process-dna-rung {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.process-node-left .process-dna-rung {
+  right: -58px;
+  width: 58px;
+  flex-direction: row;
+}
+
+.process-node-right .process-dna-rung {
+  left: -58px;
+  width: 58px;
+  flex-direction: row-reverse;
+}
+
+.process-rung-line {
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    rgba(194, 164, 255, 0.2),
+    rgba(194, 164, 255, 0.6)
+  );
+  border-top: 1px dashed rgba(194, 164, 255, 0.4);
+}
+
+.process-node-right .process-rung-line {
+  background: linear-gradient(
+    270deg,
+    rgba(194, 164, 255, 0.2),
+    rgba(194, 164, 255, 0.6)
+  );
+}
+
+.process-rung-node {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c2a4ff;
+  box-shadow: 0 0 10px #c2a4ff;
+}
+
+/* Process Card Glassmorphism */
+.process-dna-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(194, 164, 255, 0.18);
   border-radius: 24px;
-  padding: 40px;
+  padding: 34px 36px;
   box-sizing: border-box;
   position: relative;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 18px 40px -14px rgba(0, 0, 0, 0.65),
+              inset 0 1px 1px rgba(255, 255, 255, 0.08);
 }
 
-.process-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(194, 164, 255, 0.6), transparent);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.process-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(194, 164, 255, 0.35);
-  box-shadow: 0 20px 40px -15px rgba(127, 64, 255, 0.2);
+.process-dna-node:hover .process-dna-card {
+  transform: translateY(-5px) scale(1.015);
+  border-color: rgba(194, 164, 255, 0.45);
+  box-shadow: 0 24px 50px -12px rgba(127, 64, 255, 0.25),
+              0 0 25px rgba(194, 164, 255, 0.12),
+              inset 0 1px 2px rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.04);
 }
 
-.process-card:hover::before {
-  opacity: 1;
+/* Card Header */
+.process-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.process-strand-badge {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: rgba(194, 164, 255, 0.7);
+  background: rgba(194, 164, 255, 0.07);
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(194, 164, 255, 0.18);
 }
 
 .process-step {
-  font-size: 42px;
-  font-weight: 600;
+  font-size: 32px;
+  font-weight: 700;
   color: var(--accentColor);
-  margin-bottom: 12px;
   font-family: "Geist", sans-serif;
   letter-spacing: 1px;
+  line-height: 1;
 }
 
-.process-card h3 {
+.process-dna-card h3 {
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 600;
   color: #ffffff;
   margin: 0 0 12px 0;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
 }
 
-.process-card p {
-  font-size: 15px;
-  line-height: 24px;
+.process-dna-card p {
+  font-size: 14.5px;
+  line-height: 1.65;
   font-weight: 300;
-  color: rgba(234, 229, 236, 0.75);
-  margin: 0 0 24px 0;
+  color: rgba(234, 229, 236, 0.8);
+  margin: 0 0 22px 0;
 }
 
 .process-tags {
@@ -179,141 +289,111 @@
   font-size: 12px;
   padding: 5px 12px;
   border-radius: 30px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   color: #eae5ec;
-  font-weight: 300;
+  font-weight: 400;
   transition: all 0.3s ease;
 }
 
-.process-card:hover .process-tag {
-  border-color: rgba(194, 164, 255, 0.25);
-  background: rgba(194, 164, 255, 0.08);
+.process-dna-node:hover .process-tag {
+  border-color: rgba(194, 164, 255, 0.35);
+  background: rgba(194, 164, 255, 0.1);
+  color: #ffffff;
 }
 
+/* Competencies Section */
 .competencies-section {
   width: 100%;
-  margin-top: 80px;
+  margin-top: 100px;
   text-align: center;
 }
 
 .competencies-section h3 {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--accentColor);
-  margin: 0 0 35px 0;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  color: #eae5ec;
 }
 
 .competencies-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 14px;
-  max-width: 950px;
+  gap: 12px;
+  max-width: 900px;
   margin: auto;
 }
 
 .competency-item {
-  padding: 12px 24px;
+  padding: 8px 18px;
   border-radius: 100px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #eae5ec;
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: default;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 13.5px;
+  color: rgba(234, 229, 236, 0.85);
+  transition: all 0.3s ease;
 }
 
 .competency-item:hover {
-  background: rgba(194, 164, 255, 0.15);
-  border-color: var(--accentColor);
+  background: rgba(194, 164, 255, 0.1);
+  border-color: rgba(194, 164, 255, 0.35);
   color: #ffffff;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px -10px rgba(194, 164, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 0 14px rgba(194, 164, 255, 0.2);
 }
 
-@media only screen and (max-width: 1400px) {
-  .design-process-header h2 {
-    font-size: 55px;
-    line-height: 55px;
+/* Responsive */
+@media only screen and (max-width: 1024px) {
+  .process-dna-node {
+    width: 43%;
   }
-  .process-step {
-    font-size: 34px;
+  .process-dna-card {
+    padding: 26px 24px;
   }
-  .process-card h3 {
+  .process-dna-card h3 {
     font-size: 21px;
   }
 }
 
-@media only screen and (max-width: 1024px) {
-  .process-circuit-track {
-    display: none;
-  }
+@media only screen and (max-width: 768px) {
   .design-process-section {
-    padding: 90px 0px 50px 0px;
-  }
-  .process-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .process-card {
-    padding: 30px;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .design-process-section {
-    padding: 60px 0px 40px 0px;
-  }
-  .design-process-header {
-    margin-bottom: 40px;
+    padding: 80px 0 60px 0;
   }
   .design-process-header h2 {
-    font-size: clamp(32px, 8.5vw, 42px);
-    line-height: 1.1;
+    font-size: 44px;
+    line-height: 44px;
+    margin-bottom: 12px;
   }
-  .design-process-header p {
-    font-size: 13px;
-    letter-spacing: 1px;
+  .process-dna-spine {
+    left: 20px;
+    transform: none;
+    width: 30px;
   }
-  .process-card {
+  .process-dna-nodes {
+    gap: 36px;
+    padding-left: 55px;
+  }
+  .process-dna-node {
+    width: 100%;
+    margin: 0 !important;
+    transform: none !important;
+  }
+  .process-dna-rung {
+    display: none;
+  }
+  .process-dna-card {
     padding: 22px 18px;
-    border-radius: 18px;
+    border-radius: 20px;
+  }
+  .process-dna-card h3 {
+    font-size: 20px;
+  }
+  .process-dna-card p {
+    font-size: 13px;
   }
   .process-step {
-    font-size: 28px;
-    margin-bottom: 6px;
-  }
-  .process-card h3 {
-    font-size: 19px;
-    line-height: 24px;
-    margin-bottom: 8px;
-  }
-  .process-card p {
-    font-size: 13.5px;
-    line-height: 21px;
-    margin-bottom: 16px;
-  }
-  .process-tag {
-    font-size: 11px;
-    padding: 4px 10px;
-  }
-  .competencies-section {
-    margin-top: 50px;
-  }
-  .competencies-section h3 {
-    font-size: 20px;
-    margin-bottom: 20px;
-  }
-  .competencies-grid {
-    gap: 8px;
-  }
-  .competency-item {
-    font-size: 12px;
-    padding: 8px 14px;
+    font-size: 26px;
   }
 }
