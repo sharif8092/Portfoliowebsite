@@ -24,6 +24,43 @@
   color: var(--accentColor);
 }
 
+.work-circuit-track {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: rgba(194, 164, 255, 0.12);
+  margin: 0 0 clamp(14px, 2.2vh, 26px) 0;
+  border-radius: 999px;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.work-circuit-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #aa42ff 0%, #c2a4ff 75%, #ffffff 100%);
+  box-shadow: 0 0 14px rgba(194, 164, 255, 0.7);
+  border-radius: 999px;
+  will-change: width;
+}
+
+.work-circuit-dot {
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: #aa42ff;
+  box-shadow: 0px 0px 6px 3px #d29bff, 0px 0px 16px 8px #d097ff,
+    0px 0px 60px 15px rgba(242, 192, 255, 0.6);
+  animation: timeline 0.8s linear infinite forwards;
+}
+
 .work-container {
   margin: auto;
   display: flex;

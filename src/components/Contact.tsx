@@ -1,13 +1,35 @@
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MdArrowOutward, MdCopyright } from "react-icons/md";
 import SignatureMotion from "./SignatureMotion";
 import "./styles/Contact.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".contact-circuit-line",
+        { maxHeight: "0%", opacity: 0 },
+        {
+          maxHeight: "100%",
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".contact-section",
+            start: "top 75%",
+            end: "top 25%",
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
+    });
+
     const el = titleRef.current;
     if (!el || window.matchMedia("(pointer: coarse)").matches) return;
 
@@ -29,6 +51,7 @@ const Contact = () => {
     el.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
+      ctx.revert();
       el.removeEventListener("mousemove", handleMouseMove);
       el.removeEventListener("mouseleave", handleMouseLeave);
     };
@@ -37,6 +60,12 @@ const Contact = () => {
   return (
     <div className="contact-section section-container" id="contact">
       <div className="contact-container">
+        {/* Living Circuit Plunging into Contact */}
+        <div className="contact-circuit-lead">
+          <div className="contact-circuit-line">
+            <div className="contact-circuit-dot"></div>
+          </div>
+        </div>
         <div className="contact-header">
           <h3>Contact</h3>
           <h2 ref={titleRef} className="contact-magnetic-title">
@@ -86,6 +115,11 @@ const Contact = () => {
               <MdCopyright /> 2026
             </h5>
           </div>
+        </div>
+
+        {/* Living Circuit Node Landing into Signature */}
+        <div className="signature-circuit-beacon">
+          <div className="signature-beacon-pulse"></div>
         </div>
 
         {/* Sri Venkat-Style Signature & Monumental Kinetic Name Motion */}

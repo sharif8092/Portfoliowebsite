@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./styles/DesignProcess.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const processSteps = [
   {
@@ -47,6 +52,29 @@ const competencies = [
 ];
 
 const DesignProcess = () => {
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".process-circuit-line",
+        { maxHeight: "0%", opacity: 0 },
+        {
+          maxHeight: "100%",
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".process-grid-wrapper",
+            start: "top 72%",
+            end: "bottom 60%",
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section className="design-process-section" id="process">
       <div className="design-process-container section-container">
@@ -58,21 +86,30 @@ const DesignProcess = () => {
           <p>From understanding technology to designing intuitive experiences</p>
         </div>
 
-        <div className="process-grid">
-          {processSteps.map((item) => (
-            <div className="process-card" key={item.step}>
-              <div className="process-step">{item.step}</div>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-              <div className="process-tags">
-                {item.tags.map((tag) => (
-                  <span className="process-tag" key={tag}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
+        <div className="process-grid-wrapper">
+          {/* Living Circuit Central Spine */}
+          <div className="process-circuit-track">
+            <div className="process-circuit-line">
+              <div className="process-circuit-dot"></div>
             </div>
-          ))}
+          </div>
+
+          <div className="process-grid">
+            {processSteps.map((item) => (
+              <div className="process-card" key={item.step}>
+                <div className="process-step">{item.step}</div>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <div className="process-tags">
+                  {item.tags.map((tag) => (
+                    <span className="process-tag" key={tag}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="competencies-section">

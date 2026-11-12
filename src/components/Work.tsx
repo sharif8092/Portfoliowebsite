@@ -50,12 +50,27 @@ const Work = () => {
         },
       });
 
-      // Animate cards across the viewport
-      timeline.to(".work-flex", {
-        x: -targetTravel,
-        ease: "none",
-        duration: 1,
-      });
+      // Animate cards across the viewport AND the horizontal living circuit beam
+      timeline.to(
+        ".work-flex",
+        {
+          x: -targetTravel,
+          ease: "none",
+          duration: 1,
+        },
+        0
+      );
+
+      timeline.fromTo(
+        ".work-circuit-line",
+        { width: "0%" },
+        {
+          width: "100%",
+          ease: "none",
+          duration: 1,
+        },
+        0
+      );
 
       // Generous hold at the end so the user can inspect the 4th project before unpinning
       timeline.to({}, { duration: 0.3 });
@@ -119,6 +134,12 @@ const Work = () => {
         <h2>
           My <span>Work</span>
         </h2>
+        {/* Living Circuit Horizontal Energy Beam */}
+        <div className="work-circuit-track">
+          <div className="work-circuit-line">
+            <div className="work-circuit-dot"></div>
+          </div>
+        </div>
         <div className="work-flex">
           {projects.map((project) => (
             <div className="work-box" key={project.id}>
