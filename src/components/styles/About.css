@@ -51,6 +51,7 @@
     padding: 0px;
     width: 44%;
     max-width: 550px;
+    margin-left: clamp(40px, 4.5vw, 85px);
     transform: none;
   }
 
